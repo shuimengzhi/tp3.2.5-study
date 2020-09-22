@@ -1,0 +1,13 @@
+version: '3'
+services:
+  tp-study:
+    image: webdevops/php-nginx:5.6
+    container_name: tp-study
+    expose:
+      - "80"
+    environment:
+      - VIRTUAL_HOST=sjs.ngrok.shuimengzhi.com
+    #    - LETSENCRYPT_HOST=本地host的虚拟域名(和上面一样)
+    volumes:
+      - ./:/app
+    network_mode: docker_network
