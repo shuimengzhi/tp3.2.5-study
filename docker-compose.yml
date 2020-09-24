@@ -10,4 +10,5 @@ services:
     #    - LETSENCRYPT_HOST=本地host的虚拟域名(和上面一样)
     volumes:
       - ./:/app
+      - ./10-php.conf:/opt/docker/etc/nginx/vhost.common.d/10-php.conf
     network_mode: docker_network
