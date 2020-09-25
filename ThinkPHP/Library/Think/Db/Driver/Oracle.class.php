@@ -13,7 +13,7 @@ namespace Think\Db\Driver;
 use Think\Db\Driver;
 
 /**
- * Oracle数据库驱动
+ *
  */
 class Oracle extends Driver{
 
@@ -21,7 +21,7 @@ class Oracle extends Driver{
     protected   $selectSql    = 'SELECT * FROM (SELECT thinkphp.*, rownum AS numrow FROM (SELECT  %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%) thinkphp ) %LIMIT%%COMMENT%';
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -35,7 +35,7 @@ class Oracle extends Driver{
     }
 
     /**
-     * 执行语句
+     *
      * @access public
      * @param string $str  sql指令
      * @param boolean $fetchSql  不执行只是获取SQL     
@@ -57,11 +57,11 @@ class Oracle extends Driver{
             $this->table = C("DB_SEQUENCE_PREFIX").str_ireplace(C("DB_PREFIX"), "", $match[2]);
             $flag = (boolean)$this->query("SELECT * FROM user_sequences WHERE sequence_name='" . strtoupper($this->table) . "'");
         }
-        //释放前次的查询结果
+        //
         if ( !empty($this->PDOStatement) ) $this->free();
         $this->executeTimes++;
         N('db_write',1); // 兼容代码        
-        // 记录开始执行时间
+        //
         $this->debug(true);
         $this->PDOStatement	=	$this->_linkID->prepare($str);
         if(false === $this->PDOStatement) {
@@ -91,7 +91,7 @@ class Oracle extends Driver{
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      */
      public function getFields($tableName) {
@@ -117,7 +117,7 @@ class Oracle extends Driver{
     }
 
     /**
-     * 取得数据库的表信息（暂时实现取得用户表信息）
+     *
      * @access public
      */
     public function getTables($dbName='') {
@@ -130,7 +130,7 @@ class Oracle extends Driver{
     }
 
     /**
-     * SQL指令安全过滤
+     *
      * @access public
      * @param string $str  SQL指令
      * @return string
@@ -157,7 +157,7 @@ class Oracle extends Driver{
     }
 
     /**
-     * 设置锁机制
+     *
      * @access protected
      * @return string
      */

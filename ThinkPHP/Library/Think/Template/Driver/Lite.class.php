@@ -10,11 +10,11 @@
 // +----------------------------------------------------------------------
 namespace Think\Template\Driver;
 /**
- * TemplateLite模板引擎驱动 
+ *
  */
 class Lite {
     /**
-     * 渲染模板输出
+     *
      * @access public
      * @param string $templateFile 模板文件名
      * @param array $var 模板变量

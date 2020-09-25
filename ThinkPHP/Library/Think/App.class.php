@@ -10,23 +10,23 @@
 // +----------------------------------------------------------------------
 namespace Think;
 /**
- * ThinkPHP 应用程序类 执行应用过程管理
+ *
  */
 class App {
 
     /**
-     * 应用程序初始化
+     *
      * @access public
      * @return void
      */
     static public function init() {
-        // 加载动态应用公共文件和配置
+        //
         load_ext_file(COMMON_PATH);
 
-        // 日志目录转换为绝对路径 默认情况下存储到公共模块下面
+        //
         C('LOG_PATH',   realpath(LOG_PATH).'/Common/');
 
-        // 定义当前请求的系统常量
+        //
         define('NOW_TIME',      $_SERVER['REQUEST_TIME']);
         define('REQUEST_METHOD',$_SERVER['REQUEST_METHOD']);
         define('IS_GET',        REQUEST_METHOD =='GET' ? true : false);
@@ -34,28 +34,28 @@ class App {
         define('IS_PUT',        REQUEST_METHOD =='PUT' ? true : false);
         define('IS_DELETE',     REQUEST_METHOD =='DELETE' ? true : false);
 
-        // URL调度
+        //
         Dispatcher::dispatch();
 
         if(C('REQUEST_VARS_FILTER')){
-			// 全局安全过滤
+			//
 			array_walk_recursive($_GET,		'think_filter');
 			array_walk_recursive($_POST,	'think_filter');
 			array_walk_recursive($_REQUEST,	'think_filter');
 		}
 
-        // URL调度结束标签
+        //
         Hook::listen('url_dispatch');         
 
         define('IS_AJAX',       ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) ? true : false);
 
-        // TMPL_EXCEPTION_FILE 改为绝对地址
+        //
         C('TMPL_EXCEPTION_FILE',realpath(C('TMPL_EXCEPTION_FILE')));
         return ;
     }
 
     /**
-     * 执行应用程序
+     *
      * @access public
      * @return void
      */
@@ -64,28 +64,28 @@ class App {
         if(!preg_match('/^[A-Za-z](\/|\w)*$/',CONTROLLER_NAME)){ // 安全检测
             $module  =  false;
         }elseif(C('ACTION_BIND_CLASS')){
-            // 操作绑定到类：模块\Controller\控制器\操作
+            //
             $layer  =   C('DEFAULT_C_LAYER');
             if(is_dir(MODULE_PATH.$layer.'/'.CONTROLLER_NAME)){
                 $namespace  =   MODULE_NAME.'\\'.$layer.'\\'.CONTROLLER_NAME.'\\';
             }else{
-                // 空控制器
+                //
                 $namespace  =   MODULE_NAME.'\\'.$layer.'\\_empty\\';                    
             }
             $actionName     =   strtolower(ACTION_NAME);
             if(class_exists($namespace.$actionName)){
                 $class   =  $namespace.$actionName;
             }elseif(class_exists($namespace.'_empty')){
-                // 空操作
+                //
                 $class   =  $namespace.'_empty';
             }else{
                 E(L('_ERROR_ACTION_').':'.ACTION_NAME);
             }
             $module  =  new $class;
-            // 操作绑定到类后 固定执行run入口
+            //
             $action  =  'run';
         }else{
-            //创建控制器实例
+            //
             $module  =  controller(CONTROLLER_NAME,CONTROLLER_PATH);                
         }
 
@@ -102,14 +102,14 @@ class App {
             }
         }
 
-        // 获取当前操作名 支持动态路由
+        //
         if(!isset($action)){
             $action    =   ACTION_NAME.C('ACTION_SUFFIX');  
         }
         try{
             self::invokeAction($module,$action);
         } catch (\ReflectionException $e) { 
-            // 方法调用发生异常后 引导到__call方法处理
+            //
             $method = new \ReflectionMethod($module,'__call');
             $method->invokeArgs($module,array($action,''));
         }
@@ -185,24 +185,24 @@ class App {
 	}
     }
     /**
-     * 运行应用实例 入口文件使用的快捷方法
+     *
      * @access public
      * @return void
      */
     static public function run() {
-        // 应用初始化标签
+        //
         Hook::listen('app_init');
         App::init();
-        // 应用开始标签
+        //
         Hook::listen('app_begin');
-        // Session初始化
+        //
         if(!IS_CLI){
             session(C('SESSION_OPTIONS'));
         }
-        // 记录应用初始化时间
+        //
         G('initTime');
         App::exec();
-        // 应用结束标签
+        //
         Hook::listen('app_end');
         return ;
     }

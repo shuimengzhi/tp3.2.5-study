@@ -12,13 +12,13 @@ namespace Think\Db\Driver;
 use Think\Db\Driver;
 
 /**
- * Firebird数据库驱动 
+ *
  */
 class Firebird extends Driver{
     protected $selectSql  =     'SELECT %LIMIT% %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%';
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -29,7 +29,7 @@ class Firebird extends Driver{
     }
     
     /**
-     * 执行语句
+     *
      * @access public
      * @param string $str  sql指令
      * @param boolean $fetchSql  不执行只是获取SQL
@@ -46,11 +46,11 @@ class Firebird extends Driver{
         if($fetchSql){
             return $this->queryStr;
         }
-        //释放前次的查询结果
+        //
         if ( !empty($this->PDOStatement) ) $this->free();
         $this->executeTimes++;
         N('db_write',1); // 兼容代码
-        // 记录开始执行时间
+        //
         $this->debug(true);
         $this->PDOStatement =   $this->_linkID->prepare($str);
         if(false === $this->PDOStatement) {
@@ -76,7 +76,7 @@ class Firebird extends Driver{
     }
     
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      */
     public function getFields($tableName) {
@@ -97,7 +97,7 @@ class Firebird extends Driver{
                 );
             }
         }
-        //获取主键
+        //
         $sql='select b.rdb$field_name as field_name from rdb$relation_constraints a join rdb$index_segments b on a.rdb$index_name=b.rdb$index_name where a.rdb$constraint_type=\'PRIMARY KEY\' and a.rdb$relation_name=UPPER(\''.$tableName.'\')';
         $rs_temp = $this->query($sql);
         foreach($rs_temp as $row) {
@@ -107,7 +107,7 @@ class Firebird extends Driver{
     }
     
     /**
-     * 取得数据库的表信息
+     *
      * @access public
      */
     public function getTables($dbName='') {
@@ -121,7 +121,7 @@ class Firebird extends Driver{
     }
     
     /**
-     * SQL指令安全过滤
+     *
      * @access public
      * @param string $str  SQL指令
      * @return string
@@ -131,7 +131,7 @@ class Firebird extends Driver{
     }
 
     /**
-     * limit
+     *
      * @access public
      * @param $limit limit表达式
      * @return string

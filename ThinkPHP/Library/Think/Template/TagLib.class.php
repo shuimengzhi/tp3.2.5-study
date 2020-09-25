@@ -10,47 +10,47 @@
 // +----------------------------------------------------------------------
 namespace Think\Template;
 /**
- * ThinkPHP标签库TagLib解析基类
+ *
  */
 class TagLib {
 
     /**
-     * 标签库定义XML文件
+     *
      * @var string
      * @access protected
      */
     protected $xml      = '';
-    protected $tags     = array();// 标签定义
+    protected $tags     = array();//
     /**
-     * 标签库名称
+     *
      * @var string
      * @access protected
      */
     protected $tagLib   ='';
 
     /**
-     * 标签库标签列表
+     *
      * @var string
      * @access protected
      */
     protected $tagList  = array();
 
     /**
-     * 标签库分析数组
+     *
      * @var string
      * @access protected
      */
     protected $parse    = array();
 
     /**
-     * 标签库是否有效
+     *
      * @var string
      * @access protected
      */
     protected $valid    = false;
 
     /**
-     * 当前模板对象
+     *
      * @var object
      * @access protected
      */
@@ -59,7 +59,7 @@ class TagLib {
     protected $comparison = array(' nheq '=>' !== ',' heq '=>' === ',' neq '=>' != ',' eq '=>' == ',' egt '=>' >= ',' gt '=>' > ',' elt '=>' <= ',' lt '=>' < ');
 
     /**
-     * 架构函数
+     *
      * @access public
      */
     public function __construct() {
@@ -68,13 +68,13 @@ class TagLib {
     }
 
     /**
-     * TagLib标签属性分析 返回标签属性数组
+     *
      * @access public
      * @param string $tagStr 标签内容
      * @return array
      */
     public function parseXmlAttr($attr,$tag) {
-        //XML解析安全过滤
+        //
         $attr   =   str_replace('&','___', $attr);
         $xml    =   '<tpl><tag '.$attr.' /></tpl>';
         $xml    =   simplexml_load_string($xml);
@@ -87,7 +87,7 @@ class TagLib {
             if($array) {
                 $tag    =   strtolower($tag);
                 if(!isset($this->tags[$tag])){
-                    // 检测是否存在别名定义
+                    //
                     foreach($this->tags as $key=>$val){
                         if(isset($val['alias']) && in_array($tag,explode(',',$val['alias']))){
                             $item  =   $val;
@@ -118,7 +118,7 @@ class TagLib {
     }
 
     /**
-     * 解析条件表达式
+     *
      * @access public
      * @param string $condition 表达式标签内容
      * @return array
@@ -127,13 +127,13 @@ class TagLib {
         $condition = str_ireplace(array_keys($this->comparison),array_values($this->comparison),$condition);
         $condition = preg_replace('/\$(\w+):(\w+)\s/is','$\\1->\\2 ',$condition);
         switch(strtolower(C('TMPL_VAR_IDENTIFY'))) {
-            case 'array': // 识别为数组
+            case 'array': //
                 $condition  =   preg_replace('/\$(\w+)\.(\w+)\s/is','$\\1["\\2"] ',$condition);
                 break;
-            case 'obj':  // 识别为对象
+            case 'obj':  //
                 $condition  =   preg_replace('/\$(\w+)\.(\w+)\s/is','$\\1->\\2 ',$condition);
                 break;
-            default:  // 自动判断数组或对象 只支持二维
+            default:  //
                 $condition  =   preg_replace('/\$(\w+)\.(\w+)\s/is','(is_array($\\1)?$\\1["\\2"]:$\\1->\\2) ',$condition);
         }
         if(false !== strpos($condition, '$Think'))
@@ -142,20 +142,20 @@ class TagLib {
     }
 
     /**
-     * 自动识别构建变量
+     *
      * @access public
      * @param string $name 变量描述
      * @return string
      */
     public function autoBuildVar($name) {
         if('Think.' == substr($name,0,6)){
-            // 特殊变量
+            //
             return $this->parseThinkVar($name);
         }elseif(strpos($name,'.')) {
             $vars = explode('.',$name);
             $var  =  array_shift($vars);
             switch(strtolower(C('TMPL_VAR_IDENTIFY'))) {
-                case 'array': // 识别为数组
+                case 'array': //
                     $name = '$'.$var;
                     foreach ($vars as $key=>$val){
                         if(0===strpos($val,'$')) {
@@ -165,16 +165,16 @@ class TagLib {
                         }
                     }
                     break;
-                case 'obj':  // 识别为对象
+                case 'obj':  //
                     $name = '$'.$var;
                     foreach ($vars as $key=>$val)
                         $name .= '->'.$val;
                     break;
-                default:  // 自动判断数组或对象 只支持二维
+                default:  //
                     $name = 'is_array($'.$var.')?$'.$var.'["'.$vars[0].'"]:$'.$var.'->'.$vars[0];
             }
         }elseif(strpos($name,':')){
-            // 额外的对象方式支持
+            //
             $name   =   '$'.str_replace(':','->',$name);
         }elseif(!defined($name)) {
             $name = '$'.$name;
@@ -183,14 +183,13 @@ class TagLib {
     }
 
     /**
-     * 用于标签属性里面的特殊模板变量解析
-     * 格式 以 Think. 打头的变量属于特殊模板变量
+     *
      * @access public
      * @param string $varStr  变量字符串
      * @return string
      */
     public function parseThinkVar($varStr){
-        if(is_array($varStr)){//用于正则替换回调函数
+        if(is_array($varStr)){//
             $varStr = $varStr[1]; 
         }
         $vars       = explode('.',$varStr);
@@ -239,7 +238,7 @@ class TagLib {
         return $parseStr;
     }
 
-    // 获取标签定义
+    //
     public function getTags(){
         return $this->tags;
     }

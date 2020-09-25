@@ -11,12 +11,12 @@
 namespace Think\Template\TagLib;
 use Think\Template\TagLib;
 /**
- * Html标签库驱动
+ *
  */
 class Html extends TagLib{
-    // 标签定义
+    //
     protected $tags   =  array(
-        // 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
+        //
         'editor'    => array('attr'=>'id,name,style,width,height,type','close'=>1),
         'select'    => array('attr'=>'name,options,values,output,multiple,id,size,first,change,selected,dblclick','close'=>0),
         'grid'      => array('attr'=>'id,pk,style,action,actionlist,show,datasource','close'=>0),
@@ -27,8 +27,7 @@ class Html extends TagLib{
         );
 
     /**
-     * editor标签解析 插入可视化编辑器
-     * 格式： <html:editor id="editor" name="remark" type="FCKeditor" style="" >{$vo.remark}</html:editor>
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -68,8 +67,7 @@ class Html extends TagLib{
     }
 
     /**
-     * imageBtn标签解析
-     * 格式： <html:imageBtn type="" value="" />
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -92,8 +90,7 @@ class Html extends TagLib{
     }
 
     /**
-     * imageLink标签解析
-     * 格式： <html:imageLink type="" value="" />
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -114,8 +111,7 @@ class Html extends TagLib{
     }
 
     /**
-     * select标签解析
-     * 格式： <html:select options="name" selected="value" />
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -170,8 +166,7 @@ class Html extends TagLib{
     }
 
     /**
-     * checkbox标签解析
-     * 格式： <html:checkbox checkboxes="" checked="" />
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -195,8 +190,7 @@ class Html extends TagLib{
     }
 
     /**
-     * radio标签解析
-     * 格式： <html:radio radios="name" checked="value" />
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -221,8 +215,7 @@ class Html extends TagLib{
     }
 
     /**
-     * list标签解析
-     * 格式： <html:grid datasource="" show="vo" />
+     *
      * @access public
      * @param array $tag 标签属性
      * @return string
@@ -246,17 +239,17 @@ class Html extends TagLib{
         }
         $show       = explode(',',$show);                //列表显示字段列表
 
-        //计算表格的列数
+        //
         $colNum     = count($show);
         if(!empty($action))     $colNum++;
         if(!empty($key))  $colNum++;
 
-        //显示开始
+        //
 		$parseStr	= "<!-- Think 系统列表组件开始 -->\n";
         $parseStr  .= '<table id="'.$id.'" class="'.$style.'" cellpadding=0 cellspacing=0 >';
         $parseStr  .= '<tr><td height="5" colspan="'.$colNum.'" class="topTd" ></td></tr>';
         $parseStr  .= '<tr class="row" >';
-        //列表需要显示的字段
+        //
         $fields = array();
         foreach($show as $val) {
         	$fields[] = explode(':',$val);
@@ -265,7 +258,7 @@ class Html extends TagLib{
         if(!empty($key)) {
             $parseStr .= '<th width="12">No</th>';
         }
-        foreach($fields as $field) {//显示指定的字段
+        foreach($fields as $field) {//
             $property = explode('|',$field[0]);
             $showname = explode('|',$field[1]);
             if(isset($showname[1])) {
@@ -275,7 +268,7 @@ class Html extends TagLib{
             }
             $parseStr .= $showname[0].'</th>';
         }
-        if(!empty($action)) {//如果指定显示操作功能列
+        if(!empty($action)) {//
             $parseStr .= '<th >操作</th>';
         }
         $parseStr .= '</tr>';
@@ -285,14 +278,14 @@ class Html extends TagLib{
             $parseStr .= '<td>{$i}</td>';
         }
         foreach($fields as $field) {
-            //显示定义的列表字段
+            //
             $parseStr   .=  '<td>';
             if(!empty($field[2])) {
-                // 支持列表字段链接功能 具体方法由JS函数实现
+                //
                 $href = explode('|',$field[2]);
                 if(count($href)>1) {
-                    //指定链接传的字段值
-                    // 支持多个字段传递
+                    //
+                    //
                     $array = explode('^',$href[1]);
                     if(count($array)>1) {
                         foreach ($array as $a){
@@ -303,7 +296,7 @@ class Html extends TagLib{
                         $parseStr .= '<a href="javascript:'.$href[0].'(\'{$'.$name.'.'.$href[1].'|addslashes}\')">';
                     }
                 }else {
-                    //如果没有指定默认传编号值
+                    //
                     $parseStr .= '<a href="javascript:'.$field[2].'(\'{$'.$name.'.'.$pk.'|addslashes}\')">';
                 }
             }
@@ -331,8 +324,8 @@ class Html extends TagLib{
             $parseStr .= '</td>';
 
         }
-        if(!empty($action)) {//显示功能操作
-            if(!empty($actionlist[0])) {//显示指定的功能项
+        if(!empty($action)) {//
+            if(!empty($actionlist[0])) {//
                 $parseStr .= '<td>';
                 foreach($actionlist as $val) {
 					if(strpos($val,':')) {
@@ -360,7 +353,7 @@ class Html extends TagLib{
     }
 
     /**
-     * list标签解析
+     *
      * 格式： <html:list datasource="" show="" />
      * @access public
      * @param array $tag 标签属性
@@ -392,29 +385,29 @@ class Html extends TagLib{
         }
         $show       = explode(',',$show);                //列表显示字段列表
 
-        //计算表格的列数
+        //
         $colNum     = count($show);
         if(!empty($checkbox))   $colNum++;
         if(!empty($action))     $colNum++;
         if(!empty($key))  $colNum++;
 
-        //显示开始
+        //
 		$parseStr	= "<!-- Think 系统列表组件开始 -->\n";
         $parseStr  .= '<table id="'.$id.'" class="'.$style.'" cellpadding=0 cellspacing=0 >';
         $parseStr  .= '<tr><td height="5" colspan="'.$colNum.'" class="topTd" ></td></tr>';
         $parseStr  .= '<tr class="row" >';
-        //列表需要显示的字段
+        //
         $fields = array();
         foreach($show as $val) {
         	$fields[] = explode(':',$val);
         }
-        if(!empty($checkbox) && 'true'==strtolower($checkbox)) {//如果指定需要显示checkbox列
+        if(!empty($checkbox) && 'true'==strtolower($checkbox)) {//
             $parseStr .='<th width="8"><input type="checkbox" id="check" onclick="CheckAll(\''.$id.'\')"></th>';
         }
         if(!empty($key)) {
             $parseStr .= '<th width="12">No</th>';
         }
-        foreach($fields as $field) {//显示指定的字段
+        foreach($fields as $field) {//
             $property = explode('|',$field[0]);
             $showname = explode('|',$field[1]);
             if(isset($showname[1])) {
@@ -430,31 +423,31 @@ class Html extends TagLib{
             }
 
         }
-        if(!empty($action)) {//如果指定显示操作功能列
+        if(!empty($action)) {//
             $parseStr .= '<th >操作</th>';
         }
 
         $parseStr .= '</tr>';
-        $parseStr .= '<volist name="'.$datasource.'" id="'.$name.'" ><tr class="row" ';	//支持鼠标移动单元行颜色变化 具体方法在js中定义
+        $parseStr .= '<volist name="'.$datasource.'" id="'.$name.'" ><tr class="row" ';	//
         if(!empty($checkbox)) {
         //    $parseStr .= 'onmouseover="over(event)" onmouseout="out(event)" onclick="change(event)" ';
         }
         $parseStr .= '>';
-        if(!empty($checkbox)) {//如果需要显示checkbox 则在每行开头显示checkbox
+        if(!empty($checkbox)) {//
             $parseStr .= '<td><input type="checkbox" name="key"	value="{$'.$name.'.'.$pk.'}"></td>';
         }
         if(!empty($key)) {
             $parseStr .= '<td>{$i}</td>';
         }
         foreach($fields as $field) {
-            //显示定义的列表字段
+            //
             $parseStr   .=  '<td>';
             if(!empty($field[2])) {
-                // 支持列表字段链接功能 具体方法由JS函数实现
+                //
                 $href = explode('|',$field[2]);
                 if(count($href)>1) {
-                    //指定链接传的字段值
-                    // 支持多个字段传递
+                    //
+                    //
                     $array = explode('^',$href[1]);
                     if(count($array)>1) {
                         foreach ($array as $a){
@@ -465,7 +458,7 @@ class Html extends TagLib{
                         $parseStr .= '<a href="javascript:'.$href[0].'(\'{$'.$name.'.'.$href[1].'|addslashes}\')">';
                     }
                 }else {
-                    //如果没有指定默认传编号值
+                    //
                     $parseStr .= '<a href="javascript:'.$field[2].'(\'{$'.$name.'.'.$pk.'|addslashes}\')">';
                 }
             }
@@ -493,8 +486,8 @@ class Html extends TagLib{
             $parseStr .= '</td>';
 
         }
-        if(!empty($action)) {//显示功能操作
-            if(!empty($actionlist[0])) {//显示指定的功能项
+        if(!empty($action)) {//
+            if(!empty($actionlist[0])) {//
                 $parseStr .= '<td>';
                 foreach($actionlist as $val) {
                     if(strpos($val,':')) {

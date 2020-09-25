@@ -10,26 +10,26 @@
 // +----------------------------------------------------------------------
 namespace Think;
 /**
- * 缓存管理类
+ *
  */
 class Cache {
 
     /**
-     * 操作句柄
+     *
      * @var string
      * @access protected
      */
     protected $handler    ;
 
     /**
-     * 缓存连接参数
+     *
      * @var integer
      * @access protected
      */
     protected $options = array();
 
     /**
-     * 连接缓存
+     *
      * @access public
      * @param string $type 缓存类型
      * @param array $options  配置数组
@@ -46,7 +46,7 @@ class Cache {
     }
 
     /**
-     * 取得缓存类实例
+     *
      * @static
      * @access public
      * @return mixed
@@ -81,7 +81,7 @@ class Cache {
     }
 
     /**
-     * 队列缓存
+     *
      * @access protected
      * @param string $key 队列名
      * @return mixed
@@ -100,15 +100,15 @@ class Cache {
         if(!$value) {
             $value  =   array();
         }
-        // 进列
+        //
         if(false===array_search($key, $value))  array_push($value,$key);
         if(count($value) > $this->options['length']) {
-            // 出列
+            //
             $key =  array_shift($value);
-            // 删除缓存
+            //
             $this->rm($key);
              if(APP_DEBUG){
-                //调试模式下，记录出列次数
+                //
                 N($queue_name.'_out_times',1);
             }
         }
@@ -116,7 +116,7 @@ class Cache {
     }
     
     public function __call($method,$args){
-        //调用缓存类型自己的方法
+        //
         if(method_exists($this->handler, $method)){
            return call_user_func_array(array($this->handler,$method), $args);
         }else{

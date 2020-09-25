@@ -13,12 +13,12 @@ use Think\Cache;
 defined('THINK_PATH') or exit();
 
 /**
- * Redis缓存驱动 
+ *
  * 要求安装phpredis扩展：https://github.com/nicolasff/phpredis
  */
 class Redis extends Cache {
 	 /**
-	 * 架构函数
+	 *
      * @param array $options 缓存参数
      * @access public
      */
@@ -45,7 +45,7 @@ class Redis extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -58,7 +58,7 @@ class Redis extends Cache {
     }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -86,7 +86,7 @@ class Redis extends Cache {
     }
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean
@@ -96,7 +96,7 @@ class Redis extends Cache {
     }
 
     /**
-     * 清除缓存
+     *
      * @access public
      * @return boolean
      */

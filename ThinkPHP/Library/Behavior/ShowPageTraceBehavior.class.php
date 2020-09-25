@@ -11,12 +11,12 @@
 namespace Behavior;
 use Think\Log;
 /**
- * 系统行为扩展：页面Trace显示输出
+ *
  */
 class ShowPageTraceBehavior {
     protected $tracePageTabs =  array('BASE'=>'基本','FILE'=>'文件','INFO'=>'流程','ERR|NOTIC'=>'错误','SQL'=>'SQL','DEBUG'=>'调试');
 
-    // 行为扩展的执行入口必须是run
+    //
     public function run(&$params){
         if(!IS_AJAX && !IS_CLI && C('SHOW_PAGE_TRACE')) {
             echo $this->showTrace();
@@ -24,11 +24,11 @@ class ShowPageTraceBehavior {
     }
 
     /**
-     * 显示页面Trace信息
+     *
      * @access private
      */
     private function showTrace() {
-         // 系统默认显示信息
+         //
         $files  =  get_included_files();
         $info   =   array();
         foreach ($files as $key=>$file){
@@ -46,7 +46,7 @@ class ShowPageTraceBehavior {
             '配置加载'  =>  count(C()),
             '会话信息'  =>  'SESSION_ID='.session_id(),
             );
-        // 读取应用定义的Trace文件
+        //
         $traceFile  =   COMMON_PATH.'Conf/trace.php';
         if(is_file($traceFile)) {
             $base   =   array_merge($base,include $traceFile);
@@ -55,10 +55,10 @@ class ShowPageTraceBehavior {
         $tabs   =   C('TRACE_PAGE_TABS',null,$this->tracePageTabs);
         foreach ($tabs as $name=>$title){
             switch(strtoupper($name)) {
-                case 'BASE':// 基本信息
+                case 'BASE'://
                     $trace[$title]  =   $base;
                     break;
-                case 'FILE': // 文件信息
+                case 'FILE': //
                     $trace[$title]  =   $info;
                     break;
                 default:// 调试信息
@@ -75,8 +75,8 @@ class ShowPageTraceBehavior {
                     }
             }
         }
-        if($save = C('PAGE_TRACE_SAVE')) { // 保存页面Trace日志
-            if(is_array($save)) {// 选择选项卡保存
+        if($save = C('PAGE_TRACE_SAVE')) { //
+            if(is_array($save)) {//
                 $tabs   =   C('TRACE_PAGE_TABS',null,$this->tracePageTabs);
                 $array  =   array();
                 foreach ($save as $tab){
@@ -100,20 +100,20 @@ class ShowPageTraceBehavior {
             error_log(str_replace('<br/>',"\r\n",$content), 3,C('LOG_PATH').date('y_m_d').'_trace.log');
         }
         unset($files,$info,$base);
-        // 调用Trace页面模板
+        //
         ob_start();
         include C('TMPL_TRACE_FILE')?C('TMPL_TRACE_FILE'):THINK_PATH.'Tpl/page_trace.tpl';
         return ob_get_clean();
     }
 
     /**
-     * 获取运行时间
+     *
      */
     private function showTime() {
-        // 显示运行时间
+        //
         G('beginTime',$GLOBALS['_beginTime']);
         G('viewEndTime');
-        // 显示详细运行时间
+        //
         return G('beginTime','viewEndTime').'s ( Load:'.G('beginTime','loadTime').'s Init:'.G('loadTime','initTime').'s Exec:'.G('initTime','viewStartTime').'s Template:'.G('viewStartTime','viewEndTime').'s )';
     }
 }

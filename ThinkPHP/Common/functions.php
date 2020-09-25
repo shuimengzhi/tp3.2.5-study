@@ -14,7 +14,7 @@
  */
 
 /**
- * 获取和设置配置参数 支持批量定义
+ *
  * @param string|array $name 配置变量
  * @param mixed $value 配置值
  * @param mixed $default 默认值
@@ -52,7 +52,7 @@ function C($name=null, $value=null,$default=null) {
 }
 
 /**
- * 加载配置文件 支持格式转换 仅支持一级配置
+ *
  * @param string $file 配置文件名
  * @param string $parse 配置解析方法 有些格式需要用户自己解析
  * @return array
@@ -80,8 +80,8 @@ function load_config($file,$parse=CONF_PARSE){
 }
 
 /**
- * 解析yaml文件返回一个数组
- * @param string $file 配置文件名
+ *
+ * @param string $file
  * @return array
  */
 if (!function_exists('yaml_parse_file')) {
@@ -92,9 +92,9 @@ if (!function_exists('yaml_parse_file')) {
 }
 
 /**
- * 抛出异常处理
- * @param string $msg 异常消息
- * @param integer $code 异常代码 默认为0
+ *
+ * @param string $msg
+ * @param integer $code
  * @throws Think\Exception
  * @return void
  */
@@ -103,16 +103,7 @@ function E($msg, $code=0) {
 }
 
 /**
- * 记录和统计时间（微秒）和内存使用情况
- * 使用方法:
- * <code>
- * G('begin'); // 记录开始标记位
- * // ... 区间运行代码
- * G('end'); // 记录结束标签位
- * echo G('begin','end',6); // 统计区间运行时间 精确到小数后6位
- * echo G('begin','end','m'); // 统计区间内存使用情况
- * 如果end标记位没有定义，则会自动以当前作为标记位
- * 其中统计内存使用需要 MEMORY_LIMIT_ON 常量为true才有效
+ *
  * </code>
  * @param string $start 开始标签
  * @param string $end 结束标签
@@ -122,9 +113,9 @@ function E($msg, $code=0) {
 function G($start,$end='',$dec=4) {
     static $_info       =   array();
     static $_mem        =   array();
-    if(is_float($end)) { // 记录时间
+    if(is_float($end)) { //
         $_info[$start]  =   $end;
-    }elseif(!empty($end)){ // 统计时间和内存使用
+    }elseif(!empty($end)){ //
         if(!isset($_info[$end])) $_info[$end]       =  microtime(TRUE);
         if(MEMORY_LIMIT_ON && $dec=='m'){
             if(!isset($_mem[$end])) $_mem[$end]     =  memory_get_usage();
@@ -133,7 +124,7 @@ function G($start,$end='',$dec=4) {
             return number_format(($_info[$end]-$_info[$start]),$dec);
         }
 
-    }else{ // 记录时间和内存使用
+    }else{ //
         $_info[$start]  =  microtime(TRUE);
         if(MEMORY_LIMIT_ON) $_mem[$start]           =  memory_get_usage();
     }
@@ -141,45 +132,45 @@ function G($start,$end='',$dec=4) {
 }
 
 /**
- * 获取和设置语言定义(不区分大小写)
- * @param string|array $name 语言变量
- * @param mixed $value 语言值或者变量
+ *
+ * @param string|array $name
+ * @param mixed $value
  * @return mixed
  */
 function L($name=null, $value=null) {
     static $_lang = array();
-    // 空参数返回所有定义
+    //
     if (empty($name))
         return $_lang;
-    // 判断语言获取(或设置)
-    // 若不存在,直接返回全大写$name
+    //
+    //
     if (is_string($name)) {
         $name   =   strtoupper($name);
         if (is_null($value)){
             return isset($_lang[$name]) ? $_lang[$name] : $name;
         }elseif(is_array($value)){
-            // 支持变量
+            //
             $replace = array_keys($value);
             foreach($replace as &$v){
                 $v = '{$'.$v.'}';
             }
             return str_replace($replace,$value,isset($_lang[$name]) ? $_lang[$name] : $name);        
         }
-        $_lang[$name] = $value; // 语言定义
+        $_lang[$name] = $value; //
         return null;
     }
-    // 批量定义
+    //
     if (is_array($name))
         $_lang = array_merge($_lang, array_change_key_case($name, CASE_UPPER));
     return null;
 }
 
 /**
- * 添加和获取页面Trace记录
- * @param string $value 变量
- * @param string $label 标签
- * @param string $level 日志级别
- * @param boolean $record 是否记录日志
+ *
+ * @param string $value
+ * @param string $label
+ * @param string $level
+ * @param boolean $record
  * @return void|array
  */
 function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
@@ -187,14 +178,14 @@ function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
 }
 
 /**
- * 编译文件
- * @param string $filename 文件名
+ *
+ * @param string $filename
  * @return string
  */
 function compile($filename) {
     $content    =   php_strip_whitespace($filename);
     $content    =   trim(substr($content, 5));
-    // 替换预编译指令
+    //
     $content    =   preg_replace('/\/\/\[RUNTIME\](.*?)\/\/\[\/RUNTIME\]/s', '', $content);
     if(0===strpos($content,'namespace')){
         $content    =   preg_replace('/namespace\s(.*?);/','namespace \\1{',$content,1);
@@ -207,14 +198,14 @@ function compile($filename) {
 }
 
 /**
- * 获取模版文件 格式 资源://模块@主题/控制器/操作
- * @param string $template 模版资源地址
- * @param string $layer 视图层（目录）名称
+ *
+ * @param string $template
+ * @param string $layer
  * @return string
  */
 function T($template='',$layer=''){
 
-    // 解析模版资源地址
+    //
     if(false === strpos($template,'://')){
         $template   =   'http://'.str_replace(':', '/',$template);
     }
@@ -224,27 +215,27 @@ function T($template='',$layer=''){
     $extend =   $info['scheme'];
     $layer  =   $layer?$layer:C('DEFAULT_V_LAYER');
 
-    // 获取当前主题的模版路径
+    //
     $auto   =   C('AUTOLOAD_NAMESPACE');
-    if($auto && isset($auto[$extend])){ // 扩展资源
+    if($auto && isset($auto[$extend])){ //
         $baseUrl    =   $auto[$extend].$module.$layer.'/';
     }elseif(C('VIEW_PATH')){ 
-        // 改变模块视图目录
+        //
         $baseUrl    =   C('VIEW_PATH');
     }elseif(defined('TMPL_PATH')){ 
-        // 指定全局视图目录
+        //
         $baseUrl    =   TMPL_PATH.$module;
     }else{
         $baseUrl    =   APP_PATH.$module.$layer.'/';
     }
 
-    // 获取主题
+    //
     $theme  =   substr_count($file,'/')<2 ? C('DEFAULT_THEME') : '';
 
-    // 分析模板文件规则
+    //
     $depr   =   C('TMPL_FILE_DEPR');
     if('' == $file) {
-        // 如果模板文件名为空 按照默认规则定位
+        //
         $file = CONTROLLER_NAME . $depr . ACTION_NAME;
     }elseif(false === strpos($file, '/')){
         $file = CONTROLLER_NAME . $depr . $file;
@@ -255,29 +246,23 @@ function T($template='',$layer=''){
 }
 
 /**
- * 获取输入参数 支持过滤和默认值
- * 使用方法:
- * <code>
- * I('id',0); 获取id参数 自动判断get或者post
- * I('post.name','','htmlspecialchars'); 获取$_POST['name']
- * I('get.'); 获取$_GET
- * </code>
- * @param string $name 变量的名称 支持指定类型
- * @param mixed $default 不存在的时候默认值
- * @param mixed $filter 参数过滤方法
- * @param mixed $datas 要获取的额外数据源
+
+ * @param string $name
+ * @param mixed $default
+ * @param mixed $filter
+ * @param mixed $datas
  * @return mixed
  */
 function I($name,$default='',$filter=null,$datas=null) {
 	static $_PUT	=	null;
-	if(strpos($name,'/')){ // 指定修饰符
+	if(strpos($name,'/')){ //
 		list($name,$type) 	=	explode('/',$name,2);
-	}elseif(C('VAR_AUTO_STRING')){ // 默认强制转换为字符串
+	}elseif(C('VAR_AUTO_STRING')){ //
         $type   =   's';
     }
-    if(strpos($name,'.')) { // 指定参数来源
+    if(strpos($name,'.')) { //
         list($method,$name) =   explode('.',$name,2);
-    }else{ // 默认为自动判断
+    }else{ //
         $method =   'param';
     }
     switch(strtolower($method)) {
@@ -336,7 +321,7 @@ function I($name,$default='',$filter=null,$datas=null) {
         default:
             return null;
     }
-    if(''==$name) { // 获取全部变量
+    if(''==$name) { //
         $data       =   $input;
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
@@ -344,17 +329,17 @@ function I($name,$default='',$filter=null,$datas=null) {
                 $filters    =   explode(',',$filters);
             }
             foreach($filters as $filter){
-                $data   =   array_map_recursive($filter,$data); // 参数过滤
+                $data   =   array_map_recursive($filter,$data); //
             }
         }
-    }elseif(isset($input[$name])) { // 取值操作
+    }elseif(isset($input[$name])) { //
         $data       =   $input[$name];
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             if(is_string($filters)){
                 if(0 === strpos($filters,'/')){
                     if(1 !== preg_match($filters,(string)$data)){
-                        // 支持正则验证
+                        //
                         return   isset($default) ? $default : null;
                     }
                 }else{
@@ -367,7 +352,7 @@ function I($name,$default='',$filter=null,$datas=null) {
             if(is_array($filters)){
                 foreach($filters as $filter){
                     if(function_exists($filter)) {
-                        $data   =   is_array($data) ? array_map_recursive($filter,$data) : $filter($data); // 参数过滤
+                        $data   =   is_array($data) ? array_map_recursive($filter,$data) : $filter($data); //
                     }else{
                         $data   =   filter_var($data,is_int($filter) ? $filter : filter_id($filter));
                         if(false === $data) {
@@ -396,7 +381,7 @@ function I($name,$default='',$filter=null,$datas=null) {
                     $data   =   (string)$data;
         	}
         }
-    }else{ // 变量默认值
+    }else{ //
         $data       =    isset($default)?$default:null;
     }
     is_array($data) && array_walk_recursive($data,'think_filter');

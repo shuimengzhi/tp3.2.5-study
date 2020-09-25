@@ -10,11 +10,11 @@
 // +----------------------------------------------------------------------
 namespace Think\Storage\Driver;
 use Think\Storage;
-// SAE环境文件写入存储类
+//
 class Sae extends Storage{
 
     /**
-     * 架构函数
+     *
      * @access public
      */
     private $mc;
@@ -34,7 +34,7 @@ class Sae extends Storage{
     }
 
     /**
-     * 获得SaeKv对象
+     *
      */
     private function getKv(){
         static $kv;
@@ -48,7 +48,7 @@ class Sae extends Storage{
 
 
     /**
-     * 文件内容读取
+     *
      * @access public
      * @param string $filename  文件名
      * @return string
@@ -67,7 +67,7 @@ class Sae extends Storage{
     }
 
     /**
-     * 文件写入
+     *
      * @access public
      * @param string $filename  文件名
      * @param string $content  文件内容
@@ -96,7 +96,7 @@ class Sae extends Storage{
     }
 
     /**
-     * 文件追加写入
+     *
      * @access public
      * @param string $filename  文件名
      * @param string $content  追加的文件内容
@@ -123,7 +123,7 @@ class Sae extends Storage{
     }
 
     /**
-     * 文件是否存在
+     *
      * @access public
      * @param string $filename  文件名
      * @return boolean
@@ -137,7 +137,7 @@ class Sae extends Storage{
     }
 
     /**
-     * 文件删除
+     *
      * @access public
      * @param string $filename  文件名
      * @return boolean
@@ -159,7 +159,7 @@ class Sae extends Storage{
     }
 
     /**
-     * 读取文件信息
+     *
      * @access public
      * @param string $filename  文件名
      * @param string $name  信息名 mtime或者content

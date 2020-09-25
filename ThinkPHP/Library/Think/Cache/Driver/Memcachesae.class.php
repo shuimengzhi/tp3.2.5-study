@@ -13,7 +13,7 @@ use Think\Cache;
 
 defined('THINK_PATH') or exit();
 /**
- * Memcache缓存驱动
+ *
  * @category   Extend
  * @package  Extend
  * @subpackage  Driver.Cache
@@ -22,7 +22,7 @@ defined('THINK_PATH') or exit();
 class Memcachesae extends Cache {
 
     /**
-     * 架构函数
+     *
      * @param array $options 缓存参数
      * @access public
      */
@@ -38,13 +38,13 @@ class Memcachesae extends Cache {
         $this->options['expire'] =  isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
         $this->options['prefix'] =  isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
         $this->options['length'] =  isset($options['length'])?  $options['length']  :   0;
-         $this->handler      =  memcache_init();//[sae] 下实例化
-        //[sae] 下不用链接
+         $this->handler      =  memcache_init();//[sae]
+        //[sae]
         $this->connected=true;
     }
 
     /**
-     * 是否连接
+     *
      * @access private
      * @return boolean
      */
@@ -53,7 +53,7 @@ class Memcachesae extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -64,7 +64,7 @@ class Memcachesae extends Cache {
     }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -79,7 +79,7 @@ class Memcachesae extends Cache {
         $name   =   $this->options['prefix'].$name;
         if($this->handler->set($_SERVER['HTTP_APPVERSION'].'/'.$name, $value, 0, $expire)) {
             if($this->options['length']>0) {
-                // 记录缓存队列
+                //
                 $this->queue($name);
             }
             return true;
@@ -101,7 +101,7 @@ class Memcachesae extends Cache {
     }
 
     /**
-     * 清除缓存
+     *
      * @access public
      * @return boolean
      */
@@ -110,27 +110,27 @@ class Memcachesae extends Cache {
     }
 
     /**
-     * 队列缓存
+     *
      * @access protected
      * @param string $key 队列名
      * @return mixed
      */
-    //[sae] 下重写queque队列缓存方法
+    //[sae]
     protected function queue($key) {
         $queue_name=isset($this->options['queue_name'])?$this->options['queue_name']:'think_queue';
         $value  =  F($queue_name);
         if(!$value) {
             $value   =  array();
         }
-        // 进列
+        //
         if(false===array_search($key, $value)) array_push($value,$key);
         if(count($value) > $this->options['length']) {
-            // 出列
+            //
             $key =  array_shift($value);
-            // 删除缓存
+            //
             $this->rm($key);
             if (APP_DEBUG) {
-                    //调试模式下记录出队次数
+                    //
                         $counter = Think::instance('SaeCounter');
                         if ($counter->exists($queue_name.'_out_times'))
                             $counter->incr($queue_name.'_out_times');

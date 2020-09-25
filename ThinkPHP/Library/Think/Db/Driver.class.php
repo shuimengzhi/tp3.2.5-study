@@ -16,53 +16,53 @@ use Think\Log;
 use PDO;
 
 abstract class Driver {
-    // PDO操作实例
+    //
     protected $PDOStatement = null;
-    // 当前操作所属的模型名
+    //
     protected $model      = '_think_';
-    // 当前SQL指令
+    //
     protected $queryStr   = '';
     protected $modelSql   = array();
-    // 最后插入ID
+    //
     protected $lastInsID  = null;
-    // 返回或者影响记录数
+    //
     protected $numRows    = 0;
-    // 事务指令数
+    //
     protected $transTimes = 0;
-    // 错误信息
+    //
     protected $error      = '';
-    // 数据库连接ID 支持多个连接
+    //
     protected $linkID     = array();
-    // 当前连接ID
+    //
     protected $_linkID    = null;
-    // 数据库连接参数配置
+    //
     protected $config     = array(
-        'type'              =>  '',     // 数据库类型
-        'hostname'          =>  '127.0.0.1', // 服务器地址
-        'database'          =>  '',          // 数据库名
-        'username'          =>  '',      // 用户名
-        'password'          =>  '',          // 密码
-        'hostport'          =>  '',        // 端口     
+        'type'              =>  '',     //
+        'hostname'          =>  '127.0.0.1', //
+        'database'          =>  '',          //
+        'username'          =>  '',      //
+        'password'          =>  '',          //
+        'hostport'          =>  '',        //
         'dsn'               =>  '', //          
-        'params'            =>  array(), // 数据库连接参数        
-        'charset'           =>  'utf8',      // 数据库编码默认采用utf8  
-        'prefix'            =>  '',    // 数据库表前缀
-        'debug'             =>  false, // 数据库调试模式
-        'deploy'            =>  0, // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
-        'rw_separate'       =>  false,       // 数据库读写是否分离 主从式有效
-        'master_num'        =>  1, // 读写分离后 主服务器数量
-        'slave_no'          =>  '', // 指定从服务器序号
+        'params'            =>  array(), //
+        'charset'           =>  'utf8',      //
+        'prefix'            =>  '',    //
+        'debug'             =>  false, //
+        'deploy'            =>  0, //
+        'rw_separate'       =>  false,       //
+        'master_num'        =>  1, //
+        'slave_no'          =>  '', //
         'db_like_fields'    =>  '', 
     );
-    // 数据库表达式
+    //
     protected $exp = array('eq'=>'=','neq'=>'<>','gt'=>'>','egt'=>'>=','lt'=>'<','elt'=>'<=','notlike'=>'NOT LIKE','like'=>'LIKE','in'=>'IN','notin'=>'NOT IN','not in'=>'NOT IN','between'=>'BETWEEN','not between'=>'NOT BETWEEN','notbetween'=>'NOT BETWEEN');
-    // 查询表达式
+    //
     protected $selectSql  = 'SELECT%DISTINCT% %FIELD% FROM %TABLE%%FORCE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%%LIMIT% %UNION%%LOCK%%COMMENT%';
-    // 查询次数
+    //
     protected $queryTimes   =   0;
-    // 执行次数
+    //
     protected $executeTimes =   0;
-    // PDO连接参数
+    //
     protected $options = array(
         PDO::ATTR_CASE              =>  PDO::CASE_LOWER,
         PDO::ATTR_ERRMODE           =>  PDO::ERRMODE_EXCEPTION,
@@ -72,7 +72,7 @@ abstract class Driver {
     protected $bind         =   array(); // 参数绑定
 
     /**
-     * 架构函数 读取数据库配置信息
+     *
      * @access public
      * @param array $config 数据库配置数组
      */
@@ -86,7 +86,7 @@ abstract class Driver {
     }
 
     /**
-     * 连接数据库方法
+     *
      * @access public
      */
     public function connect($config='',$linkNum=0,$autoConnection=false) {
@@ -114,7 +114,7 @@ abstract class Driver {
     }
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -122,7 +122,7 @@ abstract class Driver {
     protected function parseDsn($config){}
 
     /**
-     * 释放查询结果
+     *
      * @access public
      */
     public function free() {
@@ -130,7 +130,7 @@ abstract class Driver {
     }
 
     /**
-     * 执行查询 返回数据集
+     *
      * @access public
      * @param string $str  sql指令
      * @param boolean $fetchSql  不执行只是获取SQL
@@ -183,7 +183,7 @@ abstract class Driver {
     }
 
     /**
-     * 执行语句
+     *
      * @access public
      * @param string $str  sql指令
      * @param boolean $fetchSql  不执行只是获取SQL
@@ -240,7 +240,7 @@ abstract class Driver {
     }
 
     /**
-     * 启动事务
+     *
      * @access public
      * @return void
      */
@@ -256,7 +256,7 @@ abstract class Driver {
     }
 
     /**
-     * 用于非自动提交状态下面的查询提交
+     *
      * @access public
      * @return boolean
      */
@@ -273,7 +273,7 @@ abstract class Driver {
     }
 
     /**
-     * 事务回滚
+     *
      * @access public
      * @return boolean
      */
@@ -290,7 +290,7 @@ abstract class Driver {
     }
 
     /**
-     * 获得所有的查询数据
+     *
      * @access private
      * @return array
      */
@@ -302,7 +302,7 @@ abstract class Driver {
     }
 
     /**
-     * 获得查询次数
+     *
      * @access public
      * @param boolean $execute 是否包含所有查询
      * @return integer
@@ -312,7 +312,7 @@ abstract class Driver {
     }
 
     /**
-     * 获得执行次数
+     *
      * @access public
      * @return integer
      */
@@ -321,7 +321,7 @@ abstract class Driver {
     }
 
     /**
-     * 关闭数据库
+     *
      * @access public
      */
     public function close() {
@@ -329,8 +329,8 @@ abstract class Driver {
     }
 
     /**
-     * 数据库错误信息
-     * 并显示当前的SQL语句
+     *
+     *
      * @access public
      * @return string
      */
@@ -344,7 +344,7 @@ abstract class Driver {
         if('' != $this->queryStr){
             $this->error .= "\n [ SQL语句 ] : ".$this->queryStr;
         }
-        // 记录错误日志
+        //
         trace($this->error,'','ERR');
         if($this->config['debug']) {// 开启数据库调试模式
             E($this->error);
@@ -354,7 +354,7 @@ abstract class Driver {
     }
 
     /**
-     * 设置锁机制
+     *
      * @access protected
      * @return string
      */
@@ -363,7 +363,7 @@ abstract class Driver {
     }
 
     /**
-     * set分析
+     *
      * @access protected
      * @param array $data
      * @return string
@@ -388,7 +388,7 @@ abstract class Driver {
     }
 
     /**
-     * 参数绑定
+     *
      * @access protected
      * @param string $name 绑定参数名
      * @param mixed $value 绑定值
@@ -399,7 +399,7 @@ abstract class Driver {
     }
 
     /**
-     * 字段名分析
+     *
      * @access protected
      * @param string $key
      * @return string
@@ -409,7 +409,7 @@ abstract class Driver {
     }
     
     /**
-     * value分析
+     *
      * @access protected
      * @param mixed $value
      * @return string
@@ -430,7 +430,7 @@ abstract class Driver {
     }
 
     /**
-     * field分析
+     *
      * @access protected
      * @param mixed $fields
      * @return string
@@ -440,8 +440,8 @@ abstract class Driver {
             $fields    = explode(',',$fields);
         }
         if(is_array($fields)) {
-            // 完善数组方式传字段名的支持
-            // 支持 'field1'=>'field2' 这样的字段别名定义
+            //
+            //
             $array   =  array();
             foreach ($fields as $key=>$field){
                 if(!is_numeric($key))
@@ -458,13 +458,13 @@ abstract class Driver {
     }
 
     /**
-     * table分析
+     *
      * @access protected
      * @param mixed $table
      * @return string
      */
     protected function parseTable($tables) {
-        if(is_array($tables)) {// 支持别名定义
+        if(is_array($tables)) {//
             $array   =  array();
             foreach ($tables as $table=>$alias){
                 if(!is_numeric($table))
@@ -481,7 +481,7 @@ abstract class Driver {
     }
 
     /**
-     * where分析
+     *
      * @access protected
      * @param mixed $where
      * @return string
@@ -489,16 +489,16 @@ abstract class Driver {
     protected function parseWhere($where) {
         $whereStr = '';
         if(is_string($where)) {
-            // 直接使用字符串条件
+            //
             $whereStr = $where;
-        }else{ // 使用数组表达式
+        }else{ //
             $operate  = isset($where['_logic'])?strtoupper($where['_logic']):'';
             if(in_array($operate,array('AND','OR','XOR'))){
-                // 定义逻辑运算规则 例如 OR XOR AND NOT
+                //
                 $operate    =   ' '.$operate.' ';
                 unset($where['_logic']);
             }else{
-                // 默认进行 AND 运算
+                //
                 $operate    =   ' AND ';
             }
             foreach ($where as $key=>$val){
@@ -506,7 +506,7 @@ abstract class Driver {
                     $key  = '_complex';
                 }
                 if(0===strpos($key,'_')) {
-                    // 解析特殊条件表达式
+                    //
                     $whereStr   .= $this->parseThinkWhere($key,$val);
                 }else{
                     // 查询字段的安全过滤
@@ -543,7 +543,7 @@ abstract class Driver {
         return empty($whereStr)?'':' WHERE '.$whereStr;
     }
 
-    // where子单元分析
+    //
     protected function parseWhereItem($key,$val) {
         $whereStr = '';
         if(is_array($val)) {
@@ -603,7 +603,7 @@ abstract class Driver {
                 $whereStr = '( '.substr($whereStr,0,-4).' )';
             }
         }else {
-            //对字符串类型字段采用模糊匹配
+            //
             $likeFields   =   $this->config['db_like_fields'];
             if($likeFields && preg_match('/^('.$likeFields.')$/i',$key)) {
                 $whereStr .= $key.' LIKE '.$this->parseValue('%'.$val.'%');
@@ -615,7 +615,7 @@ abstract class Driver {
     }
 
     /**
-     * 特殊条件分析
+     *
      * @access protected
      * @param string $key
      * @param mixed $val
@@ -625,15 +625,15 @@ abstract class Driver {
         $whereStr   = '';
         switch($key) {
             case '_string':
-                // 字符串模式查询条件
+                //
                 $whereStr = $val;
                 break;
             case '_complex':
-                // 复合查询条件
+                //
                 $whereStr = substr($this->parseWhere($val),6);
                 break;
             case '_query':
-                // 字符串模式查询条件
+                //
                 parse_str($val,$where);
                 if(isset($where['_logic'])) {
                     $op   =  ' '.strtoupper($where['_logic']).' ';
@@ -651,7 +651,7 @@ abstract class Driver {
     }
 
     /**
-     * limit分析
+     *
      * @access protected
      * @param mixed $lmit
      * @return string
@@ -661,7 +661,7 @@ abstract class Driver {
     }
 
     /**
-     * join分析
+     *
      * @access protected
      * @param mixed $join
      * @return string
@@ -675,7 +675,7 @@ abstract class Driver {
     }
 
     /**
-     * order分析
+     *
      * @access protected
      * @param mixed $order
      * @return string
@@ -696,7 +696,7 @@ abstract class Driver {
     }
 
     /**
-     * group分析
+     *
      * @access protected
      * @param mixed $group
      * @return string
@@ -706,7 +706,7 @@ abstract class Driver {
     }
 
     /**
-     * having分析
+     *
      * @access protected
      * @param string $having
      * @return string
@@ -716,7 +716,7 @@ abstract class Driver {
     }
 
     /**
-     * comment分析
+     *
      * @access protected
      * @param string $comment
      * @return string
@@ -726,7 +726,7 @@ abstract class Driver {
     }
 
     /**
-     * distinct分析
+     *
      * @access protected
      * @param mixed $distinct
      * @return string
@@ -736,7 +736,7 @@ abstract class Driver {
     }
 
     /**
-     * union分析
+     *
      * @access protected
      * @param mixed $union
      * @return string
@@ -756,7 +756,7 @@ abstract class Driver {
     }
 
     /**
-     * 参数绑定分析
+     *
      * @access protected
      * @param array $bind
      * @return array
@@ -766,7 +766,7 @@ abstract class Driver {
     }
 
     /**
-     * index分析，可在操作链中指定需要强制使用的索引
+     *
      * @access protected
      * @param mixed $index
      * @return string
@@ -778,7 +778,7 @@ abstract class Driver {
     }
 
     /**
-     * ON DUPLICATE KEY UPDATE 分析
+     *
      * @access protected
      * @param mixed $duplicate 
      * @return string
@@ -788,7 +788,7 @@ abstract class Driver {
     }
 
     /**
-     * 插入记录
+     *
      * @access public
      * @param mixed $data 数据
      * @param array $options 参数表达式
@@ -817,7 +817,7 @@ abstract class Driver {
                 }
             }
         }
-        // 兼容数字传入方式
+        //
         $replace= (is_numeric($replace) && $replace>0)?true:$replace;
         $sql    = (true===$replace?'REPLACE':'INSERT').' INTO '.$this->parseTable($options['table']).' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')'.$this->parseDuplicate($replace);
         $sql    .= $this->parseComment(!empty($options['comment'])?$options['comment']:'');
@@ -826,7 +826,7 @@ abstract class Driver {
 
 
     /**
-     * 批量插入记录
+     *
      * @access public
      * @param mixed $dataSet 数据集
      * @param array $options 参数表达式
@@ -864,7 +864,7 @@ abstract class Driver {
     }
 
     /**
-     * 通过Select方式插入记录
+     *
      * @access public
      * @param string $fields 要插入的数据表字段名
      * @param string $table 要插入的数据表名
@@ -882,7 +882,7 @@ abstract class Driver {
     }
 
     /**
-     * 更新记录
+     *
      * @access public
      * @param mixed $data 数据
      * @param array $options 表达式
@@ -907,7 +907,7 @@ abstract class Driver {
     }
 
     /**
-     * 删除记录
+     *
      * @access public
      * @param array $options 表达式
      * @return false | integer
@@ -934,7 +934,7 @@ abstract class Driver {
     }
 
     /**
-     * 查找记录
+     *
      * @access public
      * @param array $options 表达式
      * @return mixed
@@ -948,7 +948,7 @@ abstract class Driver {
     }
 
     /**
-     * 生成查询SQL
+     *
      * @access public
      * @param array $options 表达式
      * @return string
@@ -967,7 +967,7 @@ abstract class Driver {
     }
 
     /**
-     * 替换SQL语句中表达式
+     *
      * @access public
      * @param array $options 表达式
      * @return string
@@ -994,7 +994,7 @@ abstract class Driver {
     }
 
     /**
-     * 获取最近一次查询的sql语句 
+     *
      * @param string $model  模型名
      * @access public
      * @return string
@@ -1004,7 +1004,7 @@ abstract class Driver {
     }
 
     /**
-     * 获取最近插入的ID
+     *
      * @access public
      * @return string
      */
@@ -1013,7 +1013,7 @@ abstract class Driver {
     }
 
     /**
-     * 获取最近的错误信息
+     *
      * @access public
      * @return string
      */
@@ -1022,7 +1022,7 @@ abstract class Driver {
     }
 
     /**
-     * SQL指令安全过滤
+     *
      * @access public
      * @param string $str  SQL字符串
      * @return string
@@ -1032,7 +1032,7 @@ abstract class Driver {
     }
 
     /**
-     * 设置当前操作模型
+     *
      * @access public
      * @param string $model  模型名
      * @return void
@@ -1042,7 +1042,7 @@ abstract class Driver {
     }
 
     /**
-     * 数据库调试 记录当前SQL
+     *
      * @access protected
      * @param boolean $start  调试开始标记 true 开始 false 结束
      */
@@ -1061,7 +1061,7 @@ abstract class Driver {
     }
 
     /**
-     * 初始化数据库连接
+     *
      * @access protected
      * @param boolean $master 主服务器
      * @return void
@@ -1076,7 +1076,7 @@ abstract class Driver {
     }
 
     /**
-     * 连接分布式服务器
+     *
      * @access protected
      * @param boolean $master 主服务器
      * @return void
@@ -1092,23 +1092,23 @@ abstract class Driver {
         $_config['charset']     =   explode(',',$this->config['charset']);
 
         $m     =   floor(mt_rand(0,$this->config['master_num']-1));
-        // 数据库读写是否分离
+        //
         if($this->config['rw_separate']){
-            // 主从式采用读写分离
+            //
             if($master)
-                // 主服务器写入
+                //
                 $r  =   $m;
             else{
-                if(is_numeric($this->config['slave_no'])) {// 指定服务器读
+                if(is_numeric($this->config['slave_no'])) {//
                     $r = $this->config['slave_no'];
                 }else{
-                    // 读操作连接从服务器
-                    $r = floor(mt_rand($this->config['master_num'],count($_config['hostname'])-1));   // 每次随机连接的数据库
+                    //
+                    $r = floor(mt_rand($this->config['master_num'],count($_config['hostname'])-1));   //
                 }
             }
         }else{
-            // 读写操作不区分服务器
-            $r = floor(mt_rand(0,count($_config['hostname'])-1));   // 每次随机连接的数据库
+            //
+            $r = floor(mt_rand(0,count($_config['hostname'])-1));   //
         }
         
         if($m != $r ){
@@ -1135,15 +1135,15 @@ abstract class Driver {
     }
 
    /**
-     * 析构方法
+     *
      * @access public
      */
     public function __destruct() {
-        // 释放查询
+        //
         if ($this->PDOStatement){
             $this->free();
         }
-        // 关闭连接
+        //
         $this->close();
     }
 }

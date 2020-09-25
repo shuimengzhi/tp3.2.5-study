@@ -13,12 +13,12 @@ namespace Think\Db\Driver;
 use Think\Db\Driver;
 
 /**
- * mysql数据库驱动 
+ *
  */
 class Mysql extends Driver{
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -40,7 +40,7 @@ class Mysql extends Driver{
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      */
     public function getFields($tableName) {
@@ -74,7 +74,7 @@ class Mysql extends Driver{
     }
 
     /**
-     * 取得数据库的表信息
+     *
      * @access public
      */
     public function getTables($dbName='') {
@@ -88,7 +88,7 @@ class Mysql extends Driver{
     }
 
     /**
-     * 字段和表名处理
+     *
      * @access protected
      * @param string $key
      * @return string
@@ -102,7 +102,7 @@ class Mysql extends Driver{
     }
 
     /**
-     * 批量插入记录
+     *
      * @access public
      * @param mixed $dataSet 数据集
      * @param array $options 参数表达式
@@ -134,7 +134,7 @@ class Mysql extends Driver{
             }
             $values[]    = '('.implode(',', $value).')';
         }
-        // 兼容数字传入方式
+        //
         $replace= (is_numeric($replace) && $replace>0)?true:$replace;
         $sql    =  (true===$replace?'REPLACE':'INSERT').' INTO '.$this->parseTable($options['table']).' ('.implode(',', $fields).') VALUES '.implode(',',$values).$this->parseDuplicate($replace);
         $sql    .= $this->parseComment(!empty($options['comment'])?$options['comment']:'');
@@ -142,13 +142,13 @@ class Mysql extends Driver{
     }
 
     /**
-     * ON DUPLICATE KEY UPDATE 分析
+     *
      * @access protected
      * @param mixed $duplicate 
      * @return string
      */
     protected function parseDuplicate($duplicate){
-        // 布尔值或空则返回空字符串
+        //
         if(is_bool($duplicate) || empty($duplicate)) return '';
         
         if(is_string($duplicate)){
@@ -186,7 +186,7 @@ class Mysql extends Driver{
 	
 
     /**
-     * 执行存储过程查询 返回多个数据集
+     *
      * @access public
      * @param string $str  sql指令
      * @param boolean $fetchSql  不执行只是获取SQL
@@ -200,11 +200,11 @@ class Mysql extends Driver{
         if($fetchSql){
             return $this->queryStr;
         }
-        //释放前次的查询结果
+        //
         if ( !empty($this->PDOStatement) ) $this->free();
         $this->queryTimes++;
         N('db_query',1); // 兼容代码
-        // 调试开始
+        //
         $this->debug(true);
         $this->PDOStatement = $this->_linkID->prepare($str);
         if(false === $this->PDOStatement){
@@ -213,7 +213,7 @@ class Mysql extends Driver{
         }
         try{
             $result = $this->PDOStatement->execute();
-            // 调试结束
+            //
             $this->debug(false);
             do
             {

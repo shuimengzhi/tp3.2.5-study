@@ -10,20 +10,20 @@
 // +----------------------------------------------------------------------
 namespace Think\Storage\Driver;
 use Think\Storage;
-// 本地文件写入存储类
+//
 class File extends Storage{
 
     private $contents=array();
 
     /**
-     * 架构函数
+     *
      * @access public
      */
     public function __construct() {
     }
 
     /**
-     * 文件内容读取
+     *
      * @access public
      * @param string $filename  文件名
      * @return string     
@@ -33,7 +33,7 @@ class File extends Storage{
     }
 
     /**
-     * 文件写入
+     *
      * @access public
      * @param string $filename  文件名
      * @param string $content  文件内容
@@ -53,7 +53,7 @@ class File extends Storage{
     }
 
     /**
-     * 文件追加写入
+     *
      * @access public
      * @param string $filename  文件名
      * @param string $content  追加的文件内容
@@ -67,7 +67,7 @@ class File extends Storage{
     }
 
     /**
-     * 加载文件
+     *
      * @access public
      * @param string $filename  文件名
      * @param array $vars  传入变量
@@ -81,7 +81,7 @@ class File extends Storage{
     }
 
     /**
-     * 文件是否存在
+     *
      * @access public
      * @param string $filename  文件名
      * @return boolean     
@@ -91,7 +91,7 @@ class File extends Storage{
     }
 
     /**
-     * 文件删除
+     *
      * @access public
      * @param string $filename  文件名
      * @return boolean     
@@ -102,7 +102,7 @@ class File extends Storage{
     }
 
     /**
-     * 读取文件信息
+     *
      * @access public
      * @param string $filename  文件名
      * @param string $name  信息名 mtime或者content

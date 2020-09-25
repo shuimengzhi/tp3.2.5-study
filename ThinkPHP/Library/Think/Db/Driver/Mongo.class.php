@@ -13,7 +13,7 @@ namespace Think\Db\Driver;
 use Think\Db\Driver;
 
 /**
- * Mongo数据库驱动
+ *
  */
 class Mongo extends Driver {
 
@@ -25,7 +25,7 @@ class Mongo extends Driver {
     protected $comparison       =   array('neq'=>'ne','ne'=>'ne','gt'=>'gt','egt'=>'gte','gte'=>'gte','lt'=>'lt','elt'=>'lte','lte'=>'lte','in'=>'in','not in'=>'nin','nin'=>'nin');
 
     /**
-     * 架构函数 读取数据库配置信息
+     *
      * @access public
      * @param array $config 数据库配置数组
      */
@@ -42,7 +42,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 连接数据库方法
+     *
      * @access public
      */
     public function connect($config='',$linkNum=0) {
@@ -59,7 +59,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 切换当前操作的Db和Collection
+     *
      * @access public
      * @param string $collection  collection
      * @param string $db  db
@@ -67,15 +67,15 @@ class Mongo extends Driver {
      * @return void
      */
     public function switchCollection($collection,$db='',$master=true){
-        // 当前没有连接 则首先进行数据库连接
+        //
         if ( !$this->_linkID ) $this->initConnect($master);
         try{
-            if(!empty($db)) { // 传人Db则切换数据库
-                // 当前MongoDb对象
+            if(!empty($db)) { //
+                //
                 $this->_dbName  =  $db;
                 $this->_mongo = $this->_linkID->selectDb($db);
             }
-            // 当前MongoCollection对象
+            //
             if($this->config['debug']) {
                 $this->queryStr   =  $this->_dbName.'.getCollection('.$collection.')';
             }
@@ -93,7 +93,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 释放查询结果
+     *
      * @access public
      */
     public function free() {
@@ -101,7 +101,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 执行命令
+     *
      * @access public
      * @param array $command  指令
      * @return array
@@ -137,7 +137,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 执行语句
+     *
      * @access public
      * @param string $code  sql指令
      * @param array $args  参数
@@ -158,7 +158,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 关闭数据库
+     *
      * @access public
      */
     public function close() {
@@ -172,7 +172,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 数据库错误信息
+     *
      * @access public
      * @return string
      */
@@ -183,7 +183,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 插入记录
+     *
      * @access public
      * @param mixed $data 数据
      * @param array $options 参数表达式
@@ -220,7 +220,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 插入多条记录
+     *
      * @access public
      * @param array $dataList 数据
      * @param array $options 参数表达式
@@ -244,7 +244,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 生成下一条记录ID 用于自增非MongoId主键
+     *
      * @access public
      * @param string $pk 主键名
      * @return integer
@@ -265,7 +265,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 更新记录
+     *
      * @access public
      * @param mixed $data 数据
      * @param array $options 表达式
@@ -301,7 +301,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 删除记录
+     *
      * @access public
      * @param array $options 表达式
      * @return false | integer
@@ -328,7 +328,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 清空记录
+     *
      * @access public
      * @param array $options 表达式
      * @return false | integer
@@ -354,7 +354,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 查找记录
+     *
      * @access public
      * @param array $options 表达式
      * @return iterator
@@ -365,7 +365,7 @@ class Mongo extends Driver {
         }
         $this->model  =   $options['model'];
         $this->queryTimes++;
-        N('db_query',1); // 兼容代码        
+        N('db_query',1); //
         $query  =  $this->parseWhere(isset($options['where'])?$options['where']:array());
         $field  =  $this->parseField(isset($options['field'])?$options['field']:array());
         try{
@@ -389,7 +389,7 @@ class Mongo extends Driver {
                 }
                 $_cursor =  $_cursor->sort($order);
             }
-            if(isset($options['page'])) { // 根据页数计算limit
+            if(isset($options['page'])) { //
                 list($page,$length)   =   $options['page'];
                 $page    =  $page>0 ? $page : 1;
                 $length  =  $length>0 ? $length : (is_numeric($options['limit'])?$options['limit']:20);
@@ -419,7 +419,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 查找某个记录
+     *
      * @access public
      * @param array $options 表达式
      * @return array
@@ -431,7 +431,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 统计记录数
+     *
      * @access public
      * @param array $options 表达式
      * @return iterator
@@ -500,7 +500,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      * @return array
      */
@@ -535,7 +535,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 取得当前数据库的collection信息
+     *
      * @access public
      */
     public function getTables(){
@@ -555,7 +555,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 取得当前数据库的对象
+     *
      * @access public
      * @return object mongoClient
      */
@@ -564,7 +564,7 @@ class Mongo extends Driver {
     }
     
     /**
-     * 取得当前集合的对象
+     *
      * @access public
      * @return object MongoCollection
      */
@@ -573,7 +573,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * set分析
+     *
      * @access protected
      * @param array $data
      * @return string
@@ -607,7 +607,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * order分析
+     *
      * @access protected
      * @param mixed $order
      * @return array
@@ -630,7 +630,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * limit分析
+     *
      * @access protected
      * @param mixed $limit
      * @return array
@@ -645,7 +645,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * field分析
+     *
      * @access protected
      * @param mixed $fields
      * @return array
@@ -673,7 +673,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * where分析
+     *
      * @access protected
      * @param mixed $where
      * @return array
@@ -689,11 +689,11 @@ class Mongo extends Driver {
         }
         foreach ($where as $key=>$val){
             if('_id' != $key && 0===strpos($key,'_')) {
-                // 解析特殊条件表达式
+                //
                 $parse   = $this->parseThinkWhere($key,$val);
                 $query   = array_merge($query,$parse);
             }else{
-                // 查询字段的安全过滤
+                //
                 if(!preg_match('/^[A-Z_\|\&\-.a-z0-9]+$/',trim($key))){
                     E(L('_ERROR_QUERY_').':'.$key);
                 }
@@ -728,7 +728,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * 特殊条件分析
+     *
      * @access protected
      * @param string $key
      * @param mixed $val
@@ -739,14 +739,14 @@ class Mongo extends Driver {
         $_logic = array('or','xor','nor', 'and');
         
         switch($key) {
-            case '_query': // 字符串模式查询条件
+            case '_query': //
                 parse_str($val,$query);
                 if(isset($query['_logic']) && strtolower($query['_logic']) == 'or' ) {
                     unset($query['_logic']);
                     $query['$or']   =  $query;
                 }
                 break;
-            case '_complex': // 子查询模式查询条件
+            case '_complex': //
                 $__logic = strtolower($val['_logic']);
                 if(isset($val['_logic']) && in_array($__logic, $_logic) ) {
                     unset($val['_logic']);
@@ -757,7 +757,7 @@ class Mongo extends Driver {
                 $query['$where']  = new \MongoCode($val);
                 break;
         }
-        //兼容 MongoClient OR条件查询方法
+        //
         if(isset($query['$or']) && !is_array(current($query['$or']))) {
             $val = array();
             foreach ($query['$or'] as $k=>$v)
@@ -768,7 +768,7 @@ class Mongo extends Driver {
     }
 
     /**
-     * where子单元分析
+     *
      * @access protected
      * @param string $key
      * @param mixed $val

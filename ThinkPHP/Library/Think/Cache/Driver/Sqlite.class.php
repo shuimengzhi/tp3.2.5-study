@@ -12,12 +12,12 @@ namespace Think\Cache\Driver;
 use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
- * Sqlite缓存驱动
+ *
  */
 class Sqlite extends Cache {
 
     /**
-     * 架构函数
+     *
      * @param array $options 缓存参数
      * @access public
      */
@@ -41,7 +41,7 @@ class Sqlite extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -63,7 +63,7 @@ class Sqlite extends Cache {
     }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -79,7 +79,7 @@ class Sqlite extends Cache {
         }
         $expire	=	($expire==0)?0: (time()+$expire) ;//缓存有效期为0表示永久缓存
         if( C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
-            //数据压缩
+            //
             $value   =   gzcompress($value,3);
         }
         $sql  = 'REPLACE INTO '.$this->options['table'].' (var, value,expire) VALUES (\''.$name.'\', \''.$value.'\', \''.$expire.'\')';
@@ -94,7 +94,7 @@ class Sqlite extends Cache {
     }
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean
@@ -107,7 +107,7 @@ class Sqlite extends Cache {
     }
 
     /**
-     * 清除缓存
+     *
      * @access public
      * @return boolean
      */

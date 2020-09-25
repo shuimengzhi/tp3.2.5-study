@@ -17,13 +17,13 @@ class Sae {
         'log_time_format'   =>  ' c ',
     );
 
-    // 实例化并传入参数
+    //
     public function __construct($config=array()){
         $this->config   =   array_merge($this->config,$config);
     }
 
     /**
-     * 日志写入接口
+     *
      * @access public
      * @param string $log 日志信息
      * @param string $destination  写入目标
@@ -38,7 +38,7 @@ class Sae {
             $is_debug = in_array($_SERVER['HTTP_APPVERSION'], explode(',', $appSettings['debug'])) ? true : false;
         }
         if($is_debug){
-            sae_set_display_errors(false);//记录日志不将日志打印出来
+            sae_set_display_errors(false);//
         }
         sae_debug($logstr);
         if($is_debug){

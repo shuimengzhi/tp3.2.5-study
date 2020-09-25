@@ -14,7 +14,7 @@ use Think\Db\Driver;
 use PDO;
 
 /**
- * Sqlsrv数据库驱动
+ *
  */
 class Sqlsrv extends Driver{
     protected $selectSql  =     'SELECT T1.* FROM (SELECT thinkphp.*, ROW_NUMBER() OVER (%ORDER%) AS ROW_NUMBER FROM (SELECT %DISTINCT% %FIELD% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING% %UNION%) AS thinkphp) AS T1 %LIMIT%%COMMENT%';
@@ -27,7 +27,7 @@ class Sqlsrv extends Driver{
     );
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -41,7 +41,7 @@ class Sqlsrv extends Driver{
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      * @return array
      */
@@ -71,7 +71,7 @@ class Sqlsrv extends Driver{
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      * @return array
      */
@@ -88,7 +88,7 @@ class Sqlsrv extends Driver{
     }
 
 	/**
-     * order分析
+     *
      * @access protected
      * @param mixed $order
      * @return string
@@ -98,7 +98,7 @@ class Sqlsrv extends Driver{
     }
 
     /**
-     * 字段名分析
+     *
      * @access protected
      * @param string $key
      * @return string
@@ -112,7 +112,7 @@ class Sqlsrv extends Driver{
     }
 
     /**
-     * limit
+     *
      * @access public
      * @param mixed $limit
      * @return string
@@ -128,7 +128,7 @@ class Sqlsrv extends Driver{
     }
 
     /**
-     * 更新记录
+     *
      * @access public
      * @param mixed $data 数据
      * @param array $options 表达式
@@ -147,7 +147,7 @@ class Sqlsrv extends Driver{
     }
 
     /**
-     * 删除记录
+     *
      * @access public
      * @param array $options 表达式
      * @return false | integer

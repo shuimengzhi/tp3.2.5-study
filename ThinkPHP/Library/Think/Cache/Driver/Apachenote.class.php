@@ -12,7 +12,7 @@ namespace Think\Cache\Driver;
 use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
- * Apachenote缓存驱动
+ *
  */
 class Apachenote extends Cache {
 
@@ -40,7 +40,7 @@ class Apachenote extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -60,7 +60,7 @@ class Apachenote extends Cache {
      }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -87,7 +87,7 @@ class Apachenote extends Cache {
     }
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean
@@ -103,7 +103,7 @@ class Apachenote extends Cache {
      }
 
     /**
-     * 关闭缓存
+     *
      * @access private
      */
      private function close() {
@@ -112,7 +112,7 @@ class Apachenote extends Cache {
      }
 
     /**
-     * 打开缓存
+     *
      * @access private
      */
      private function open() {

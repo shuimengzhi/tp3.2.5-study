@@ -12,12 +12,12 @@ namespace Think\Cache\Driver;
 use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
- * Eaccelerator缓存驱动
+ *
  */
 class Eaccelerator extends Cache {
 
     /**
-     * 架构函数
+     *
      * @param array $options 缓存参数
      * @access public
      */
@@ -28,7 +28,7 @@ class Eaccelerator extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -39,7 +39,7 @@ class Eaccelerator extends Cache {
      }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -55,7 +55,7 @@ class Eaccelerator extends Cache {
         eaccelerator_lock($name);
         if(eaccelerator_put($name, $value, $expire)) {
             if($this->options['length']>0) {
-                // 记录缓存队列
+                //
                 $this->queue($name);
             }
             return true;
@@ -65,7 +65,7 @@ class Eaccelerator extends Cache {
 
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean

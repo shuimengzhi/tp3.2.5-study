@@ -13,12 +13,12 @@ namespace Think\Db\Driver;
 use Think\Db\Driver;
 
 /**
- * Sqlite数据库驱动
+ *
  */
 class Sqlite extends Driver {
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -29,7 +29,7 @@ class Sqlite extends Driver {
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      * @return array
      */
@@ -53,7 +53,7 @@ class Sqlite extends Driver {
     }
 
     /**
-     * 取得数据库的表信息
+     *
      * @access public
      * @return array
      */
@@ -69,7 +69,7 @@ class Sqlite extends Driver {
     }
 
     /**
-     * SQL指令安全过滤
+     *
      * @access public
      * @param string $str  SQL指令
      * @return string
@@ -79,7 +79,7 @@ class Sqlite extends Driver {
     }
 
     /**
-     * limit
+     *
      * @access public
      * @return string
      */

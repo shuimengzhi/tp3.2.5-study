@@ -10,12 +10,12 @@
 // +----------------------------------------------------------------------
 namespace Think\Template\Driver;
 /**
- * Smarty模板引擎驱动 
+ *
  */
 class Smarty {
 
     /**
-     * 渲染模板输出
+     *
      * @access public
      * @param string $templateFile 模板文件名
      * @param array $var 模板变量

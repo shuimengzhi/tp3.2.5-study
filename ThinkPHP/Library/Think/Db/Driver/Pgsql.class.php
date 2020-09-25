@@ -13,12 +13,12 @@ namespace Think\Db\Driver;
 use Think\Db\Driver;
 
 /**
- * Pgsql数据库驱动
+ *
  */
 class Pgsql extends Driver{
 
     /**
-     * 解析pdo连接的dsn信息
+     *
      * @access public
      * @param array $config 连接信息
      * @return string
@@ -32,7 +32,7 @@ class Pgsql extends Driver{
     }
 
     /**
-     * 取得数据表的字段信息
+     *
      * @access public
      * @return array
      */
@@ -56,7 +56,7 @@ class Pgsql extends Driver{
     }
 
     /**
-     * 取得数据库的表信息
+     *
      * @access public
      * @return array
      */
@@ -70,7 +70,7 @@ class Pgsql extends Driver{
     }
 
     /**
-     * limit分析
+     *
      * @access protected
      * @param mixed $lmit
      * @return string

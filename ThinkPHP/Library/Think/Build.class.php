@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think;
 /**
- * 用于ThinkPHP的自动生成
+ *
  */
 class Build {
 
@@ -29,20 +29,20 @@ use Think\Model;
 class [MODEL]Model extends Model {
 
 }';
-    // 检测应用目录是否需要自动创建
+    //
     static public function checkDir($module){
         if(!is_dir(APP_PATH.$module)) {
-            // 创建模块的目录结构
+            //
             self::buildAppDir($module);
         }elseif(!is_dir(LOG_PATH)){
-            // 检查缓存目录
+            //
             self::buildRuntime();
         }
     }
 
-    // 创建应用和模块的目录结构
+    //
     static public function buildAppDir($module) {
-        // 没有创建的话自动创建
+        //
         if(!is_dir(APP_PATH)) mkdir(APP_PATH,0755,true);
         if(is_writeable(APP_PATH)) {
             $dirs  = array(
@@ -66,28 +66,28 @@ class [MODEL]Model extends Model {
             foreach ($dirs as $dir){
                 if(!is_dir($dir))  mkdir($dir,0755,true);
             }
-            // 写入目录安全文件
+            //
             self::buildDirSecure($dirs);
-            // 写入应用配置文件
+            //
             if(!is_file(CONF_PATH.'config'.CONF_EXT))
                 file_put_contents(CONF_PATH.'config'.CONF_EXT,'.php' == CONF_EXT ? "<?php\nreturn array(\n\t//'配置项'=>'配置值'\n);":'');
-            // 写入模块配置文件
+            //
             if(!is_file(APP_PATH.$module.'/Conf/config'.CONF_EXT))
                 file_put_contents(APP_PATH.$module.'/Conf/config'.CONF_EXT,'.php' == CONF_EXT ? "<?php\nreturn array(\n\t//'配置项'=>'配置值'\n);":'');
-            // 生成模块的测试控制器
+            //
             if(defined('BUILD_CONTROLLER_LIST')){
-                // 自动生成的控制器列表（注意大小写）
+                //
                 $list = explode(',',BUILD_CONTROLLER_LIST);
                 foreach($list as $controller){
                     self::buildController($module,$controller);
                 }
             }else{
-                // 生成默认的控制器
+                //
                 self::buildController($module);
             }
-            // 生成模块的模型
+            //
             if(defined('BUILD_MODEL_LIST')){
-                // 自动生成的控制器列表（注意大小写）
+                //
                 $list = explode(',',BUILD_MODEL_LIST);
                 foreach($list as $model){
                     self::buildModel($module,$model);
@@ -99,7 +99,7 @@ class [MODEL]Model extends Model {
         }
     }
 
-    // 检查缓存目录(Runtime) 如果不存在则自动创建
+    //
     static public function buildRuntime() {
         if(!is_dir(RUNTIME_PATH)) {
             mkdir(RUNTIME_PATH);
@@ -107,14 +107,14 @@ class [MODEL]Model extends Model {
             header('Content-Type:text/html; charset=utf-8');
             exit('目录 [ '.RUNTIME_PATH.' ] 不可写！');
         }
-        mkdir(CACHE_PATH);  // 模板缓存目录
-        if(!is_dir(LOG_PATH))   mkdir(LOG_PATH);    // 日志目录
-        if(!is_dir(TEMP_PATH))  mkdir(TEMP_PATH);   // 数据缓存目录
-        if(!is_dir(DATA_PATH))  mkdir(DATA_PATH);   // 数据文件目录
+        mkdir(CACHE_PATH);  //
+        if(!is_dir(LOG_PATH))   mkdir(LOG_PATH);    //
+        if(!is_dir(TEMP_PATH))  mkdir(TEMP_PATH);   //
+        if(!is_dir(DATA_PATH))  mkdir(DATA_PATH);   //
         return true;
     }
 
-    // 创建控制器类
+    //
     static public function buildController($module,$controller='Index') {
         $file   =   APP_PATH.$module.'/Controller/'.$controller.'Controller'.EXT;
         if(!is_file($file)){
@@ -130,7 +130,7 @@ class [MODEL]Model extends Model {
         }
     }
 
-    // 创建模型类
+    //
     static public function buildModel($module,$model) {
         $file   =   APP_PATH.$module.'/Model/'.$model.'Model'.EXT;
         if(!is_file($file)){
@@ -146,14 +146,14 @@ class [MODEL]Model extends Model {
         }
     }
 
-    // 生成目录安全文件
+    //
     static public function buildDirSecure($dirs=array()) {
-        // 目录安全写入（默认开启）
+        //
         defined('BUILD_DIR_SECURE')  or define('BUILD_DIR_SECURE',    true);
         if(BUILD_DIR_SECURE) {
             defined('DIR_SECURE_FILENAME')  or define('DIR_SECURE_FILENAME',    'index.html');
             defined('DIR_SECURE_CONTENT')   or define('DIR_SECURE_CONTENT',     ' ');
-            // 自动写入目录安全文件
+            //
             $content = DIR_SECURE_CONTENT;
             $files = explode(',', DIR_SECURE_FILENAME);
             foreach ($files as $filename){

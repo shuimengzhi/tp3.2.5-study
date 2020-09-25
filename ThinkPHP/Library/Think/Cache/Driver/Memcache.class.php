@@ -12,12 +12,12 @@ namespace Think\Cache\Driver;
 use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
- * Memcache缓存驱动
+ *
  */
 class Memcache extends Cache {
 
     /**
-     * 架构函数
+     *
      * @param array $options 缓存参数
      * @access public
      */
@@ -45,7 +45,7 @@ class Memcache extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -56,7 +56,7 @@ class Memcache extends Cache {
     }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -80,7 +80,7 @@ class Memcache extends Cache {
     }
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean
@@ -93,7 +93,7 @@ class Memcache extends Cache {
     }
 
     /**
-     * 清除缓存
+     *
      * @access public
      * @return boolean
      */

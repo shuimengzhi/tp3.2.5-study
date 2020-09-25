@@ -12,12 +12,12 @@ namespace Think\Cache\Driver;
 use Think\Cache;
 defined('THINK_PATH') or exit();
 /**
- * Shmop缓存驱动 
+ *
  */
 class Shmop extends Cache {
 
     /**
-     * 架构函数
+     *
      * @param array $options 缓存参数
      * @access public
      */
@@ -40,7 +40,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -72,7 +72,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -101,7 +101,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean
@@ -117,7 +117,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 生成IPC key
+     *
      * @access private
      * @param string $project 项目标识名
      * @return integer
@@ -136,7 +136,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 写入操作
+     *
      * @access private
      * @param string $name 缓存变量名
      * @return integer|boolean
@@ -154,7 +154,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 共享锁定
+     *
      * @access private
      * @param string $name 缓存变量名
      * @return boolean
@@ -171,7 +171,7 @@ class Shmop extends Cache {
     }
 
     /**
-     * 解除共享锁定
+     *
      * @access private
      * @param string $name 缓存变量名
      * @return boolean

@@ -9,9 +9,9 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 namespace Behavior;
-// 创建Lite运行文件
-// 可以替换框架入口文件运行
-// 建议绑定位置app_init
+//
+//
+//
 class BuildLiteBehavior {
     public function run(&$params) {
         if(!defined('BUILD_LITE_FILE')) return ;
@@ -24,11 +24,11 @@ class BuildLiteBehavior {
             $content .= '$GLOBALS[\'_startUseMems\'] = memory_get_usage();';
         }
 
-        // 生成数组定义
+        //
         unset($defs['user']['BUILD_LITE_FILE']);
         $content   .=   $this->buildArrayDefine($defs['user']).'}';
 
-        // 读取编译列表文件
+        //
         $filelist   =   is_file(CONF_PATH.'lite.php')?
             include CONF_PATH.'lite.php':
             array(
@@ -50,23 +50,23 @@ class BuildLiteBehavior {
                 BEHAVIOR_PATH . 'ContentReplaceBehavior'.EXT,
             );
 
-        // 编译文件
+        //
         foreach ($filelist as $file){
           if(is_file($file)) {
             $content   .= compile($file);
           }
         }
 
-        // 处理Think类的start方法
+        //
         $content  =  preg_replace('/\$runtimefile = RUNTIME_PATH(.+?)(if\(APP_STATUS)/','\2',$content,1);
         $content  .=  "\nnamespace { Think\Think::addMap(".var_export(\Think\Think::getMap(),true).");";
         $content  .=  "\nL(".var_export(L(),true).");\nC(".var_export(C(),true).');Think\Hook::import('.var_export(\Think\Hook::get(),true).');Think\Think::start();}';
 
-        // 生成运行Lite文件
+        //
         file_put_contents($litefile,strip_whitespace('<?php '.$content));
     }
 
-    // 根据数组生成常量定义
+    //
     private function buildArrayDefine($array) {
         $content = "\n";
         foreach ($array as $key => $val) {

@@ -17,7 +17,7 @@ defined('THINK_PATH') or exit();
 class File extends Cache {
 
     /**
-     * 架构函数
+     *
      * @access public
      */
     public function __construct($options=array()) {
@@ -33,7 +33,7 @@ class File extends Cache {
     }
 
     /**
-     * 初始化检查
+     *
      * @access private
      * @return boolean
      */
@@ -45,7 +45,7 @@ class File extends Cache {
     }
 
     /**
-     * 取得变量的存储文件名
+     *
      * @access private
      * @param string $name 缓存变量名
      * @return string
@@ -69,7 +69,7 @@ class File extends Cache {
     }
 
     /**
-     * 读取缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return mixed
@@ -110,7 +110,7 @@ class File extends Cache {
     }
 
     /**
-     * 写入缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @param mixed $value  存储数据
@@ -148,7 +148,7 @@ class File extends Cache {
     }
 
     /**
-     * 删除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean
@@ -158,7 +158,7 @@ class File extends Cache {
     }
 
     /**
-     * 清除缓存
+     *
      * @access public
      * @param string $name 缓存变量名
      * @return boolean

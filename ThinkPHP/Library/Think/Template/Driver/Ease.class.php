@@ -10,11 +10,11 @@
 // +----------------------------------------------------------------------
 namespace Think\Template\Driver;
 /**
- * EaseTemplate模板引擎驱动 
+ *
  */
 class Ease {
     /**
-     * 渲染模板输出
+     *
      * @access public
      * @param string $templateFile 模板文件名
      * @param array $var 模板变量

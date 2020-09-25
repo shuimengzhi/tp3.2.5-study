@@ -12,15 +12,15 @@
 namespace Think;
 
 /**
- * ThinkPHP 数据库中间层实现类
+ *
  */
 class Db {
 
-    static private  $instance   =  array();     //  数据库连接实例
-    static private  $_instance  =  null;   //  当前数据库连接实例
+    static private  $instance   =  array();     //
+    static private  $_instance  =  null;   //
 
     /**
-     * 取得数据库类实例
+     *
      * @static
      * @access public
      * @param mixed $config 连接配置
@@ -29,16 +29,16 @@ class Db {
     static public function getInstance($config=array()) {
         $md5    =   md5(serialize($config));
         if(!isset(self::$instance[$md5])) {
-            // 解析连接参数 支持数组和字符串
+            //
             $options    =   self::parseConfig($config);
-            // 兼容mysqli
+            //
             if('mysqli' == $options['type']) $options['type']   =   'mysql';
-            // 如果采用lite方式 仅支持原生SQL 包括query和execute方法
+            //
             $class  =   !empty($options['lite'])?  'Think\Db\Lite' :   'Think\\Db\\Driver\\'.ucwords(strtolower($options['type']));
             if(class_exists($class)){
                 self::$instance[$md5]   =   new $class($options);
             }else{
-                // 类没有定义
+                //
                 E(L('_NO_DB_DRIVER_').': ' . $class);
             }
         }
@@ -47,7 +47,7 @@ class Db {
     }
 
     /**
-     * 数据库连接参数解析
+     *
      * @static
      * @access private
      * @param mixed $config
@@ -130,7 +130,7 @@ class Db {
         return $dsn;
      }
 
-    // 调用驱动类的方法
+    //
     static public function __callStatic($method, $params){
         return call_user_func_array(array(self::$_instance, $method), $params);
     }
