@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Think;
 /**
- *
+ * 生成目录
  */
 class Build {
 
@@ -29,20 +29,20 @@ use Think\Model;
 class [MODEL]Model extends Model {
 
 }';
-    //
+    // 检查目录
     static public function checkDir($module){
         if(!is_dir(APP_PATH.$module)) {
-            //
+            // 构建文件目录
             self::buildAppDir($module);
         }elseif(!is_dir(LOG_PATH)){
-            //
+            // 创建Runtime目录
             self::buildRuntime();
         }
     }
 
-    //
+    // 构建文件目录
     static public function buildAppDir($module) {
-        //
+        // 如果不存在则创建
         if(!is_dir(APP_PATH)) mkdir(APP_PATH,0755,true);
         if(is_writeable(APP_PATH)) {
             $dirs  = array(
@@ -66,28 +66,28 @@ class [MODEL]Model extends Model {
             foreach ($dirs as $dir){
                 if(!is_dir($dir))  mkdir($dir,0755,true);
             }
-            //
+            // 构建安全文件
             self::buildDirSecure($dirs);
-            //
+            // 如果不存在config配置文件，则创建并写入一个DEMO
             if(!is_file(CONF_PATH.'config'.CONF_EXT))
                 file_put_contents(CONF_PATH.'config'.CONF_EXT,'.php' == CONF_EXT ? "<?php\nreturn array(\n\t//'配置项'=>'配置值'\n);":'');
-            //
+            // 如果模块的配置文件不存在，则创建并写入
             if(!is_file(APP_PATH.$module.'/Conf/config'.CONF_EXT))
                 file_put_contents(APP_PATH.$module.'/Conf/config'.CONF_EXT,'.php' == CONF_EXT ? "<?php\nreturn array(\n\t//'配置项'=>'配置值'\n);":'');
-            //
+            // 如果定义了构建控制器的列表，则创建
             if(defined('BUILD_CONTROLLER_LIST')){
-                //
+                // 构建控制器列表弄成数组，然后遍历执行创建
                 $list = explode(',',BUILD_CONTROLLER_LIST);
                 foreach($list as $controller){
                     self::buildController($module,$controller);
                 }
             }else{
-                //
+                // 构建模块的index控制器
                 self::buildController($module);
             }
-            //
+            // 如果定义了模块列表则创建模块
             if(defined('BUILD_MODEL_LIST')){
-                //
+                // 模块列表改为数组方式
                 $list = explode(',',BUILD_MODEL_LIST);
                 foreach($list as $model){
                     self::buildModel($module,$model);
@@ -99,7 +99,7 @@ class [MODEL]Model extends Model {
         }
     }
 
-    //
+    // 创建Runtime目录
     static public function buildRuntime() {
         if(!is_dir(RUNTIME_PATH)) {
             mkdir(RUNTIME_PATH);
@@ -107,14 +107,14 @@ class [MODEL]Model extends Model {
             header('Content-Type:text/html; charset=utf-8');
             exit('目录 [ '.RUNTIME_PATH.' ] 不可写！');
         }
-        mkdir(CACHE_PATH);  //
-        if(!is_dir(LOG_PATH))   mkdir(LOG_PATH);    //
-        if(!is_dir(TEMP_PATH))  mkdir(TEMP_PATH);   //
-        if(!is_dir(DATA_PATH))  mkdir(DATA_PATH);   //
+        mkdir(CACHE_PATH);  // 创建缓存路径
+        if(!is_dir(LOG_PATH))   mkdir(LOG_PATH);    // 创建日志目录
+        if(!is_dir(TEMP_PATH))  mkdir(TEMP_PATH);   // 创建缓存目录
+        if(!is_dir(DATA_PATH))  mkdir(DATA_PATH);   // 创建数据文件目录
         return true;
     }
 
-    //
+    // 创建控制器
     static public function buildController($module,$controller='Index') {
         $file   =   APP_PATH.$module.'/Controller/'.$controller.'Controller'.EXT;
         if(!is_file($file)){
@@ -130,7 +130,7 @@ class [MODEL]Model extends Model {
         }
     }
 
-    //
+    // 创建模块
     static public function buildModel($module,$model) {
         $file   =   APP_PATH.$module.'/Model/'.$model.'Model'.EXT;
         if(!is_file($file)){
@@ -146,14 +146,14 @@ class [MODEL]Model extends Model {
         }
     }
 
-    //
+    // 构建安全文件
     static public function buildDirSecure($dirs=array()) {
-        //
+        // 判断是否定义了文件安全写入，没有则设置
         defined('BUILD_DIR_SECURE')  or define('BUILD_DIR_SECURE',    true);
         if(BUILD_DIR_SECURE) {
             defined('DIR_SECURE_FILENAME')  or define('DIR_SECURE_FILENAME',    'index.html');
             defined('DIR_SECURE_CONTENT')   or define('DIR_SECURE_CONTENT',     ' ');
-            //
+            // 需要写入文件的内容
             $content = DIR_SECURE_CONTENT;
             $files = explode(',', DIR_SECURE_FILENAME);
             foreach ($files as $filename){
