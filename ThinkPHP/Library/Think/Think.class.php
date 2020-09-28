@@ -15,26 +15,26 @@ namespace Think;
  */
 class Think {
 
-    //
+    // 映射
     private static $_map      = array();
 
-    //
+    // 实例
     private static $_instance = array();
 
     /**
-     *
+     * 应用程序开始
      * @access public
      * @return void
      */
     static public function start() {
-      //
+      // 注册自动加载
       spl_autoload_register('Think\Think::autoload');      
-      //
+      //注册错误处理方法
       register_shutdown_function('Think\Think::fatalError');
       set_error_handler('Think\Think::appError');
       set_exception_handler('Think\Think::appException');
 
-      //
+      //连接存储方法
       Storage::connect(STORAGE_TYPE);
 
       $runtimefile  = RUNTIME_PATH.APP_MODE.'~runtime.php';
@@ -44,9 +44,9 @@ class Think {
           if(Storage::has($runtimefile))
               Storage::unlink($runtimefile);
           $content =  '';
-          //
+          // 读取核心配置文件
           $mode   =   include is_file(CONF_PATH.'core.php')?CONF_PATH.'core.php':MODE_PATH.APP_MODE.'.php';
-          //
+          // 加载核心文件
           foreach ($mode['core'] as $file){
               if(is_file($file)) {
                 include $file;
@@ -54,35 +54,34 @@ class Think {
               }
           }
 
-          //
+          // 加载config配置
           foreach ($mode['config'] as $key=>$file){
               is_numeric($key)?C(load_config($file)):C($key,load_config($file));
           }
 
-          //
+          // 如果不是普通模式，加载当前模式对应的配置信息
           if('common' != APP_MODE && is_file(CONF_PATH.'config_'.APP_MODE.CONF_EXT))
               C(load_config(CONF_PATH.'config_'.APP_MODE.CONF_EXT));  
 
-          //
+          // 加载别名
           if(isset($mode['alias'])){
               self::addMap(is_array($mode['alias'])?$mode['alias']:include $mode['alias']);
           }
 
-          //
+          // 加载别名配置文件
           if(is_file(CONF_PATH.'alias.php'))
               self::addMap(include CONF_PATH.'alias.php');
 
-          //
+          // 加载行为标签
           if(isset($mode['tags'])) {
               Hook::import(is_array($mode['tags'])?$mode['tags']:include $mode['tags']);
           }
 
-          //
+          // 如果有别的行为标签文件
           if(is_file(CONF_PATH.'tags.php'))
-              //
               Hook::import(include CONF_PATH.'tags.php');   
 
-          //
+          // 加载语言包
           L(include THINK_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
 
           if(!APP_DEBUG){
@@ -90,37 +89,37 @@ class Think {
               $content  .=  "\nL(".var_export(L(),true).");\nC(".var_export(C(),true).');Think\Hook::import('.var_export(Hook::get(),true).');}';
               Storage::put($runtimefile,strip_whitespace('<?php '.$content));
           }else{
-            //
+            // 载入DEBUG配置信息
             C(include THINK_PATH.'Conf/debug.php');
-            //
+            // 如果有别的自定义DEBUG配置文件则载入
             if(is_file(CONF_PATH.'debug'.CONF_EXT))
                 C(include CONF_PATH.'debug'.CONF_EXT);           
           }
       }
 
-      //
+      // 如果有设置APP状态并且有对应配置文件，则加载
       if(APP_STATUS && is_file(CONF_PATH.APP_STATUS.CONF_EXT))
           C(include CONF_PATH.APP_STATUS.CONF_EXT);   
 
-      //
+      // 设置默认时区时间
       date_default_timezone_set(C('DEFAULT_TIMEZONE'));
 
-      //
+      // 如果设置了检查APP目录，则判断默认模块文件是否存在
       if(C('CHECK_APP_DIR')) {
           $module     =   defined('BIND_MODULE') ? BIND_MODULE : C('DEFAULT_MODULE');
           if(!is_dir(APP_PATH.$module) || !is_dir(LOG_PATH)){
-              //
+              // 检查模块目录是否存在，不存在则创建相关的所有目录
               Build::checkDir($module);
           }
       }
 
-      //
+      // 记录加载时间
       G('loadTime');
-      //
+      // 运行应用
       App::run();
     }
 
-    //
+    // 添加映射对象
     static public function addMap($class, $map=''){
         if(is_array($class)){
             self::$_map = array_merge(self::$_map, $class);
@@ -129,7 +128,7 @@ class Think {
         }        
     }
 
-    //
+    // 获得映射对象
     static public function getMap($class=''){
         if(''===$class){
             return self::$_map;
@@ -141,7 +140,7 @@ class Think {
     }
 
     /**
-     *
+     * 自动加载
      * @param string $class 对象类名
      * @return void
      */
