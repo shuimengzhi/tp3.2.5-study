@@ -145,29 +145,29 @@ class Think {
      * @return void
      */
     public static function autoload($class) {
-        //
+        // 如果存在映射对象就加载
         if(isset(self::$_map[$class])) {
             include self::$_map[$class];
         }elseif(false !== strpos($class,'\\')){
           $name           =   strstr($class, '\\', true);
           if(in_array($name,array('Think','Org','Behavior','Com','Vendor')) || is_dir(LIB_PATH.$name)){ 
-              //
+              // Library目录下存在的文件夹路径
               $path       =   LIB_PATH;
           }else{
-              //
+              // 命名空间赋值，如果不存在则用模块名定义
               $namespace  =   C('AUTOLOAD_NAMESPACE');
               $path       =   isset($namespace[$name])? dirname($namespace[$name]).'/' : APP_PATH;
           }
           $filename       =   $path . str_replace('\\', '/', $class) . EXT;
           if(is_file($filename)) {
-              //
+              // 如果是WINDOWS,看看真实文件下有没有和CLASS匹配的
               if (IS_WIN && false === strpos(str_replace('/', '\\', realpath($filename)), $class . EXT)){
                   return ;
               }
               include $filename;
           }
         }elseif (!C('APP_USE_NAMESPACE')) {
-            //
+            // 根据需要自动加载的层，自动加载
             foreach(explode(',',C('APP_AUTOLOAD_LAYER')) as $layer){
                 if(substr($class,-strlen($layer))==$layer){
                     if(require_cache(MODULE_PATH.$layer.'/'.$class.EXT)) {
@@ -175,17 +175,17 @@ class Think {
                     }
                 }            
             }
-            //
+            // 引入自动加路径，并自动加载
             foreach (explode(',',C('APP_AUTOLOAD_PATH')) as $path){
                 if(import($path.'.'.$class))
-                    //
+                    // 加载完返回
                     return ;
             }
         }
     }
 
     /**
-     *
+     * 实例化
      * @param string $class 对象类名
      * @param string $method 类的静态方法名
      * @return object
@@ -207,7 +207,7 @@ class Think {
     }
 
     /**
-     *
+     *  异常处理
      * @access public
      * @param mixed $e 异常对象
      */
@@ -224,14 +224,14 @@ class Think {
         }
         $error['trace']     =   $e->getTraceAsString();
         Log::record($error['message'],Log::ERR);
-        //
+        // 设置404头部信息
         header('HTTP/1.1 404 Not Found');
         header('Status:404 Not Found');
         self::halt($error);
     }
 
     /**
-     *
+     * 记录错误
      * @access public
      * @param int $errno 错误类型
      * @param string $errstr 错误信息
@@ -258,7 +258,7 @@ class Think {
       }
     }
     
-    //
+    // 日志记录错误
     static public function fatalError() {
         Log::save();
         if ($e = error_get_last()) {
@@ -276,14 +276,14 @@ class Think {
     }
 
     /**
-     *
+     * 错误处理
      * @param mixed $error 错误
      * @return void
      */
     static public function halt($error) {
         $e = array();
         if (APP_DEBUG || IS_CLI) {
-            //
+            // 错误不是数组则改为数组
             if (!is_array($error)) {
                 $trace          = debug_backtrace();
                 $e['message']   = $error;
@@ -299,7 +299,7 @@ class Think {
                 exit(iconv('UTF-8','gbk',$e['message']).PHP_EOL.'FILE: '.$e['file'].'('.$e['line'].')'.PHP_EOL.$e['trace']);
             }
         } else {
-            //
+            // 不报具体的错误，跳转到报错页面
             $error_page         = C('ERROR_PAGE');
             if (!empty($error_page)) {
                 redirect($error_page);
@@ -308,14 +308,14 @@ class Think {
                 $e['message']   = C('SHOW_ERROR_MSG')? $message : C('ERROR_MESSAGE');
             }
         }
-        //
+        // 加载报错模版
         $exceptionFile =  C('TMPL_EXCEPTION_FILE',null,THINK_PATH.'Tpl/think_exception.tpl');
         include $exceptionFile;
         exit;
     }
 
     /**
-     *
+     * 写日志
      * @param string $value 变量
      * @param string $label 标签
      * @param string $level 日志级别(或者页面Trace的选项卡)
@@ -324,7 +324,7 @@ class Think {
      */
     static public function trace($value='[think]',$label='',$level='DEBUG',$record=false) {
         static $_trace =  array();
-        if('[think]' === $value){ //
+        if('[think]' === $value){ // 返回空
             return $_trace;
         }else{
             $info   =   ($label?$label.':':'').print_r($value,true);
