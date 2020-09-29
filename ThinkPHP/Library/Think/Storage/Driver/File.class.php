@@ -16,14 +16,14 @@ class File extends Storage{
     private $contents=array();
 
     /**
-     *
+     * 构造函数
      * @access public
      */
     public function __construct() {
     }
 
     /**
-     *
+     * 读文件
      * @access public
      * @param string $filename  文件名
      * @return string     
@@ -33,7 +33,7 @@ class File extends Storage{
     }
 
     /**
-     *
+     * 写入文件
      * @access public
      * @param string $filename  文件名
      * @param string $content  文件内容
@@ -53,7 +53,7 @@ class File extends Storage{
     }
 
     /**
-     *
+     * 追加写入
      * @access public
      * @param string $filename  文件名
      * @param string $content  追加的文件内容
@@ -67,7 +67,7 @@ class File extends Storage{
     }
 
     /**
-     *
+     * 加载文件
      * @access public
      * @param string $filename  文件名
      * @param array $vars  传入变量
@@ -81,7 +81,7 @@ class File extends Storage{
     }
 
     /**
-     *
+     * 判断文件是否在
      * @access public
      * @param string $filename  文件名
      * @return boolean     
@@ -91,7 +91,7 @@ class File extends Storage{
     }
 
     /**
-     *
+     * 删除文件
      * @access public
      * @param string $filename  文件名
      * @return boolean     
@@ -102,7 +102,7 @@ class File extends Storage{
     }
 
     /**
-     *
+     * 读取文件
      * @access public
      * @param string $filename  文件名
      * @param string $name  信息名 mtime或者content
