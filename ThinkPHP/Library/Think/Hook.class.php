@@ -17,7 +17,7 @@ class Hook {
     static private  $tags       =   array();
 
     /**
-     *
+     * 添加标签
      * @param string $tag 标签名称
      * @param mixed $name 插件名称
      * @return void
